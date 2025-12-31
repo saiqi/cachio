@@ -1,0 +1,83 @@
+open Alcotest
+open Cachio
+
+module Dummy_int = Bounded_int.Make (struct
+  let min = 1
+  let max = 6
+end)
+
+let test_piecewise () =
+  let open Func in
+  let thresholds = [ 10; 20; 30 ] in
+  let values = [ 1; 2; 3; 4 ] in
+  let cases =
+    [ (5, 1); (10, 1); (15, 2); (20, 2); (25, 3); (30, 3); (35, 4) ]
+  in
+  List.iter
+    (fun (input, expected) ->
+      let result = piecewise thresholds values input in
+      check int ("piecewise " ^ string_of_int input) expected result)
+    cases
+
+let test_bounded_int () =
+  let x = Dummy_int.of_int_exn 6 in
+  let y = Dummy_int.of_int_exn 3 in
+  let r = Dummy_int.add (Dummy_int.incr x) (Dummy_int.decr y) in
+  check int "test bounded arithmetic" 8 r
+
+let test_adjust_player_score () =
+  let def =
+    Player.create (Player_id.of_int 0) Player.DEFENDER (Score.of_int_exn 2)
+  in
+  let mid =
+    Player.create (Player_id.of_int 1) Player.MIDFIELD (Score.of_int_exn 2)
+  in
+  let fwd =
+    Player.create (Player_id.of_int 2) Player.FORWARD (Score.of_int_exn 2)
+  in
+  let cases =
+    [
+      (def, [ (Player.DEFENDER, 2); (Player.MIDFIELD, 1); (Player.FORWARD, 1) ]);
+      (mid, [ (Player.DEFENDER, 1); (Player.MIDFIELD, 2); (Player.FORWARD, 1) ]);
+      (fwd, [ (Player.DEFENDER, 1); (Player.MIDFIELD, 1); (Player.FORWARD, 2) ]);
+    ]
+  in
+  List.iter
+    (fun (player, subcases) ->
+      List.iter
+        (fun (pos, expected) ->
+          let result = Player.adjust_score player pos in
+          let label =
+            "player "
+            ^ (Player.id player |> Player_id.to_int |> string_of_int)
+            ^ " / "
+            ^ Player.string_of_position (Player.pos player)
+          in
+          check int label expected (Score.to_int result))
+        subcases)
+    cases
+
+let test_is_player_injured () =
+  let p =
+    Player.create (Player_id.of_int 0) Player.DEFENDER (Score.of_int_exn 2)
+  in
+  let p1 = Player.decr_shape p in
+  let p2 = Player.decr_shape p1 in
+  let p3 = Player.decr_shape p2 in
+  let cases = [ (p, false); (p1, false); (p2, false); (p3, true) ] in
+  List.iter
+    (fun (player, expected) ->
+      let result = Player.is_injured player in
+      let label = Player.shape player |> Shape.to_int |> string_of_int in
+      check bool label expected result)
+    cases
+
+let suite =
+  [
+    ("piecewise function", `Quick, test_piecewise);
+    ("bounded int", `Quick, test_bounded_int);
+    ("adjust player score", `Quick, test_adjust_player_score);
+    ("is player injured", `Quick, test_is_player_injured);
+  ]
+
+let () = Alcotest.run "Cachio" [ ("Tests", suite) ]

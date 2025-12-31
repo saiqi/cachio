@@ -1,0 +1,4 @@
+(test
+ (libraries cachio alcotest)
+ (modules test_cachio)
+ (name test_cachio))

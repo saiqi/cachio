@@ -1,0 +1,4 @@
+(executable
+ (public_name cachio)
+ (name main)
+ (libraries cachio))
