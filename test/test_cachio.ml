@@ -27,19 +27,28 @@ let test_bounded_int () =
 
 let test_adjust_player_score () =
   let def =
-    Player.create (Player_id.of_int 0) Player.DEFENDER (Score.of_int_exn 2)
+    Player.create (Player_id.of_int 0) Position.Defender (Score.of_int_exn 2)
   in
   let mid =
-    Player.create (Player_id.of_int 1) Player.MIDFIELD (Score.of_int_exn 2)
+    Player.create (Player_id.of_int 1) Position.Midfielder (Score.of_int_exn 2)
   in
   let fwd =
-    Player.create (Player_id.of_int 2) Player.FORWARD (Score.of_int_exn 2)
+    Player.create (Player_id.of_int 2) Position.Forward (Score.of_int_exn 2)
   in
   let cases =
     [
-      (def, [ (Player.DEFENDER, 2); (Player.MIDFIELD, 1); (Player.FORWARD, 1) ]);
-      (mid, [ (Player.DEFENDER, 1); (Player.MIDFIELD, 2); (Player.FORWARD, 1) ]);
-      (fwd, [ (Player.DEFENDER, 1); (Player.MIDFIELD, 1); (Player.FORWARD, 2) ]);
+      ( def,
+        [
+          (Position.Defender, 2); (Position.Midfielder, 1); (Position.Forward, 1);
+        ] );
+      ( mid,
+        [
+          (Position.Defender, 1); (Position.Midfielder, 2); (Position.Forward, 1);
+        ] );
+      ( fwd,
+        [
+          (Position.Defender, 1); (Position.Midfielder, 1); (Position.Forward, 2);
+        ] );
     ]
   in
   List.iter
@@ -51,7 +60,7 @@ let test_adjust_player_score () =
             "player "
             ^ (Player.id player |> Player_id.to_int |> string_of_int)
             ^ " / "
-            ^ Player.string_of_position (Player.pos player)
+            ^ Position.string_of_position (Player.pos player)
           in
           check int label expected (Score.to_int result))
         subcases)
@@ -59,7 +68,7 @@ let test_adjust_player_score () =
 
 let test_is_player_injured () =
   let p =
-    Player.create (Player_id.of_int 0) Player.DEFENDER (Score.of_int_exn 2)
+    Player.create (Player_id.of_int 0) Position.Defender (Score.of_int_exn 2)
   in
   let p1 = Player.decr_shape p in
   let p2 = Player.decr_shape p1 in

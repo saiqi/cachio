@@ -1,11 +1,9 @@
-type position = DEFENDER | MIDFIELD | FORWARD
-type t = { id : Player_id.t; pos : position; shape : Shape.t; score : Score.t }
-
-let string_of_position x =
-  match x with
-  | DEFENDER -> "defender"
-  | MIDFIELD -> "midfield"
-  | FORWARD -> "forward"
+type t = {
+  id : Player_id.t;
+  pos : Position.t;
+  shape : Shape.t;
+  score : Score.t;
+}
 
 let create id pos score = { id; pos; shape = Shape.of_int_exn Shape.max; score }
 let id x = x.id
@@ -30,20 +28,20 @@ let is_injured x = Shape.to_int x.shape == Shape.min
 let adjust_score x pos =
   let score =
     match x.pos with
-    | DEFENDER -> (
+    | Position.Defender -> (
         match pos with
-        | DEFENDER -> x.score
-        | MIDFIELD -> Score.decr x.score
-        | FORWARD -> Score.decr (Score.decr x.score))
-    | MIDFIELD -> (
+        | Position.Defender -> x.score
+        | Position.Midfielder -> Score.decr x.score
+        | Position.Forward -> Score.decr (Score.decr x.score))
+    | Position.Midfielder -> (
         match pos with
-        | DEFENDER -> Score.decr x.score
-        | MIDFIELD -> x.score
-        | FORWARD -> Score.decr x.score)
-    | FORWARD -> (
+        | Position.Defender -> Score.decr x.score
+        | Position.Midfielder -> x.score
+        | Position.Forward -> Score.decr x.score)
+    | Position.Forward -> (
         match pos with
-        | DEFENDER -> Score.decr (Score.decr x.score)
-        | MIDFIELD -> Score.decr x.score
-        | FORWARD -> x.score)
+        | Position.Defender -> Score.decr (Score.decr x.score)
+        | Position.Midfielder -> Score.decr x.score
+        | Position.Forward -> x.score)
   in
   if is_injured x then Score.of_int_exn Score.min else score
