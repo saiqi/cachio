@@ -11,12 +11,18 @@ module PosMap = Map.Make (Pos)
 type t = cell PosMap.t
 
 let empty = PosMap.empty
-let get m row col = PosMap.find (row, col) m
+
+let get m row col =
+  match PosMap.find_opt (row, col) m with
+  | None -> failwith "Not found"
+  | Some v -> v
+
+let get_opt m row col = PosMap.find_opt (row, col) m
 
 let place i row col m =
-  match get m row col with
-  | Empty -> PosMap.add (row, col) (Occupied i) m
-  | Occupied _ -> failwith "board cell is occupied"
+  match get_opt m row col with
+  | None -> PosMap.add (row, col) (Occupied i) m
+  | Some _ -> failwith "board cell is occupied"
 
 let remove row col m = PosMap.remove (row, col) m
 

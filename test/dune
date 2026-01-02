@@ -1,4 +1,10 @@
 (test
  (name main)
- (modules main test_piecewise test_bounded_int test_rules)
+ (modules
+  main
+  test_piecewise
+  test_bounded_int
+  test_rules
+  test_round
+  test_board)
  (libraries alcotest cachio))
