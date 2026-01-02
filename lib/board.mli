@@ -7,3 +7,4 @@ val place : Player_id.t -> Row.t -> Column.t -> t -> t
 val remove : Row.t -> Column.t -> t -> t
 val player_on_rows : t -> Row.t -> Player_id.t list
 val position : Row.t -> Position.t
+val row : Position.t -> Row.t

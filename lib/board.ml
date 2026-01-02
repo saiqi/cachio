@@ -33,3 +33,9 @@ let position row =
   if i == 0 then Position.Defender
   else if i == 1 then Position.Midfielder
   else Position.Forward
+
+let row pos =
+  match pos with
+  | Position.Defender -> Row.of_int_exn 0
+  | Position.Midfielder -> Row.of_int_exn 1
+  | Position.Forward -> Row.of_int_exn 2

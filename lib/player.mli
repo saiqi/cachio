@@ -9,5 +9,3 @@ val incr_shape : t -> t
 val decr_shape : t -> t
 val incr_score : t -> t
 val decr_score : t -> t
-val adjust_score : t -> Position.t -> Score.t
-val is_injured : t -> bool

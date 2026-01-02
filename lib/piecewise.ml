@@ -1,6 +1,6 @@
 type t = (int * int) list
 
-let create x = x
+let of_list x = x
 
 let eval curve score =
   curve

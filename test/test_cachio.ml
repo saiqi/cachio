@@ -7,7 +7,7 @@ module Dummy_int = Bounded_int.Make (struct
 end)
 
 let test_piecewise () =
-  let curve = Piecewise.create [ (0, 1); (10, 2); (20, 3); (30, 4) ] in
+  let curve = Piecewise.of_list [ (0, 1); (10, 2); (20, 3); (30, 4) ] in
   let cases =
     [ (5, 1); (10, 2); (15, 2); (20, 3); (25, 3); (30, 4); (35, 4) ]
   in
@@ -53,7 +53,7 @@ let test_adjust_player_score () =
     (fun (player, subcases) ->
       List.iter
         (fun (pos, expected) ->
-          let result = Player.adjust_score player pos in
+          let result = Rules.adjust_score player pos in
           let label =
             "player "
             ^ (Player.id player |> Player_id.to_int |> string_of_int)
@@ -74,7 +74,7 @@ let test_is_player_injured () =
   let cases = [ (p, false); (p1, false); (p2, false); (p3, true) ] in
   List.iter
     (fun (player, expected) ->
-      let result = Player.is_injured player in
+      let result = Rules.is_injured player in
       let label = Player.shape player |> Shape.to_int |> string_of_int in
       check bool label expected result)
     cases

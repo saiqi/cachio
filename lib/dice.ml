@@ -1,3 +1,5 @@
+type roll = Dice_count.t -> int
+
 let max = 6
 
 let roll n =
