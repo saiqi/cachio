@@ -1,27 +1,4 @@
-open Alcotest
 open Cachio
-
-module Dummy_int = Bounded_int.Make (struct
-  let min = 1
-  let max = 6
-end)
-
-let test_piecewise () =
-  let curve = Piecewise.of_list [ (0, 1); (10, 2); (20, 3); (30, 4) ] in
-  let cases =
-    [ (5, 1); (10, 2); (15, 2); (20, 3); (25, 3); (30, 4); (35, 4) ]
-  in
-  List.iter
-    (fun (input, expected) ->
-      let result = Piecewise.eval curve input in
-      check int ("piecewise " ^ string_of_int input) expected result)
-    cases
-
-let test_bounded_int () =
-  let x = Dummy_int.of_int_exn 6 in
-  let y = Dummy_int.of_int_exn 3 in
-  let r = Dummy_int.add (Dummy_int.incr x) (Dummy_int.decr y) in
-  check int "test bounded arithmetic" 8 r
 
 let test_adjust_player_score () =
   let def =
@@ -60,7 +37,7 @@ let test_adjust_player_score () =
             ^ " / "
             ^ Position.string_of_position (Player.pos player)
           in
-          check int label expected (Score.to_int result))
+          Alcotest.check Alcotest.int label expected (Score.to_int result))
         subcases)
     cases
 
@@ -76,15 +53,11 @@ let test_is_player_injured () =
     (fun (player, expected) ->
       let result = Rules.is_injured player in
       let label = Player.shape player |> Shape.to_int |> string_of_int in
-      check bool label expected result)
+      Alcotest.check Alcotest.bool label expected result)
     cases
 
 let suite =
   [
-    ("piecewise function", `Quick, test_piecewise);
-    ("bounded int", `Quick, test_bounded_int);
     ("adjust player score", `Quick, test_adjust_player_score);
     ("is player injured", `Quick, test_is_player_injured);
   ]
-
-let () = Alcotest.run "Cachio" [ ("Tests", suite) ]

@@ -1,4 +1,4 @@
 (test
- (libraries cachio alcotest)
- (modules test_cachio)
- (name test_cachio))
+ (name main)
+ (modules main test_piecewise test_bounded_int test_rules)
+ (libraries alcotest cachio))
