@@ -7,15 +7,13 @@ module Dummy_int = Bounded_int.Make (struct
 end)
 
 let test_piecewise () =
-  let open Func in
-  let thresholds = [ 10; 20; 30 ] in
-  let values = [ 1; 2; 3; 4 ] in
+  let curve = Piecewise.create [ (0, 1); (10, 2); (20, 3); (30, 4) ] in
   let cases =
-    [ (5, 1); (10, 1); (15, 2); (20, 2); (25, 3); (30, 3); (35, 4) ]
+    [ (5, 1); (10, 2); (15, 2); (20, 3); (25, 3); (30, 4); (35, 4) ]
   in
   List.iter
     (fun (input, expected) ->
-      let result = piecewise thresholds values input in
+      let result = Piecewise.eval curve input in
       check int ("piecewise " ^ string_of_int input) expected result)
     cases
 
