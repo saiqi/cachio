@@ -9,3 +9,4 @@ val player_on_rows : t -> Row.t -> Player_id.t list
 val position : Row.t -> Position.t
 val row : Position.t -> Row.t
 val of_list : (Player_id.t * Row.t * Column.t) list -> t
+val is_valid : t -> bool

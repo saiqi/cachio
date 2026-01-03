@@ -53,3 +53,9 @@ let row pos =
   | Position.Forward -> Row.of_int_exn 2
 
 let of_list l = List.fold_left (fun acc (i, r, c) -> place i r c acc) empty l
+
+let is_valid m =
+  let rows = Position.all_positions |> List.map row in
+  List.for_all
+    (fun r -> List.length (player_on_rows m r) >= Rules.min_players_on_row)
+    rows
