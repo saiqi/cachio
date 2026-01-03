@@ -22,3 +22,4 @@ let adjust_score p pos =
   if is_injured p then Score.of_int_exn Score.min else score
 
 let has_scored att def = att > def
+let adjust_home_advantage h = if h then 1 else 0

@@ -26,7 +26,8 @@ let compute_param ~home ~board ~roster =
     |> Dice_count.of_int_exn
   in
   let actions =
-    (Piecewise.eval Balance.action_curve midfield_score + if home then 1 else 0)
+    Piecewise.eval Balance.action_curve midfield_score
+    + Rules.adjust_home_advantage home
     |> Action_count.of_int_exn
   in
   Round_param.create ~offensive_dices ~defensive_dices ~actions

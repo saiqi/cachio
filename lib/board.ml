@@ -22,7 +22,13 @@ let get_opt m row col = PosMap.find_opt (row, col) m
 let place i row col m =
   match get_opt m row col with
   | None -> PosMap.add (row, col) (Occupied i) m
-  | Some _ -> failwith "board cell is occupied"
+  | Some _ ->
+      failwith
+        ("board cell is occupied ("
+        ^ string_of_int (Row.to_int row)
+        ^ ", "
+        ^ string_of_int (Column.to_int col)
+        ^ ")")
 
 let remove row col m = PosMap.remove (row, col) m
 
