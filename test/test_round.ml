@@ -61,8 +61,34 @@ let test_compute_param_empty () =
   Alcotest.check Alcotest.int "defensive dices" 1 defensive_dices;
   Alcotest.check Alcotest.int "actions" 1 actions
 
+let scripted_roll rolls =
+  let r = ref rolls in
+  fun _ ->
+    match !r with
+    | x :: xs ->
+        r := xs;
+        x
+    | [] -> failwith "out of rolls"
+
+let test_resolve () =
+  let home =
+    Round_param.create ~offensive_dices:(Dice_count.of_int_exn 2)
+      ~defensive_dices:(Dice_count.of_int_exn 2)
+      ~actions:(Action_count.of_int_exn 2)
+  in
+  let away =
+    Round_param.create ~offensive_dices:(Dice_count.of_int_exn 1)
+      ~defensive_dices:(Dice_count.of_int_exn 1)
+      ~actions:(Action_count.of_int_exn 1)
+  in
+  let roll = scripted_roll [ 2; 6; 5; 3; 8; 2 ] in
+  let home_goals, away_goals = Round.resolve ~roll ~home ~away in
+  Alcotest.check Alcotest.int "home goals" 1 home_goals;
+  Alcotest.check Alcotest.int "away goals" 1 away_goals
+
 let suite =
   [
     ("compute param happy path", `Quick, test_compute_param_happy_path);
     ("compute param empty", `Quick, test_compute_param_empty);
+    ("resolve", `Quick, test_resolve);
   ]
