@@ -46,5 +46,23 @@ let test_compute_param_happy_path () =
     (Piecewise.eval Balance.action_curve 6)
     actions
 
+let test_compute_param_empty () =
+  let param =
+    Round.compute_param ~home:false ~board:Board.empty ~roster:Roster.empty
+  in
+  let offensive_dices =
+    Round_param.offensive_dices param |> Dice_count.to_int
+  in
+  let defensive_dices =
+    Round_param.defensive_dices param |> Dice_count.to_int
+  in
+  let actions = Round_param.actions param |> Action_count.to_int in
+  Alcotest.check Alcotest.int "offensive dices" 1 offensive_dices;
+  Alcotest.check Alcotest.int "defensive dices" 1 defensive_dices;
+  Alcotest.check Alcotest.int "actions" 1 actions
+
 let suite =
-  [ ("compute param happy path", `Quick, test_compute_param_happy_path) ]
+  [
+    ("compute param happy path", `Quick, test_compute_param_happy_path);
+    ("compute param empty", `Quick, test_compute_param_empty);
+  ]
