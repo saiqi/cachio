@@ -45,3 +45,5 @@ let row pos =
   | Position.Defender -> Row.of_int_exn 0
   | Position.Midfielder -> Row.of_int_exn 1
   | Position.Forward -> Row.of_int_exn 2
+
+let of_list l = List.fold_left (fun acc (i, r, c) -> place i r c acc) empty l

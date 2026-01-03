@@ -7,4 +7,5 @@ let () =
       ("Rules", Test_rules.suite);
       ("Bounded_int", Test_bounded_int.suite);
       ("Board", Test_board.suite);
+      ("Roster", Test_roster.suite);
     ]

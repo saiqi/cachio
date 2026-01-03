@@ -6,5 +6,6 @@
   test_bounded_int
   test_rules
   test_round
-  test_board)
+  test_board
+  test_roster)
  (libraries alcotest cachio))
