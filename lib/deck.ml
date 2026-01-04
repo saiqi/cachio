@@ -20,4 +20,6 @@ let shuffle shuffle deck =
   |> List.map (fun p -> (p, PosMap.find p deck))
   |> List.fold_left (fun acc (p, l) -> PosMap.add p (shuffle l) acc) deck
 
-let draw position n deck = Utils.take n (PosMap.find position deck)
+let draw position n deck =
+  let rest, taken = Utils.draw n (PosMap.find position deck) in
+  (PosMap.add position rest deck, taken)

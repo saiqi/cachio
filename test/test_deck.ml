@@ -12,7 +12,9 @@ let test_shuffle () =
     Position.all_positions
 
 let test_draw () =
-  let selection = Deck.draw Position.Defender 4 Deck.full in
-  Alcotest.check Alcotest.int "expected length" 4 (List.length selection)
+  let deck, cards = Deck.draw Position.Defender 4 Deck.full in
+  Alcotest.check Alcotest.int "expected length" 4 (List.length cards);
+  Alcotest.check Alcotest.int "expected deck" 20
+    (List.length (Deck.find Position.Defender deck))
 
 let suite = [ ("shuffle", `Quick, test_shuffle); ("draw", `Quick, test_draw) ]

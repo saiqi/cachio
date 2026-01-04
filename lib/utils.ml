@@ -1,9 +1,9 @@
-let take n l =
-  let rec aux n l =
-    if n = 0 then []
+let draw n l =
+  let rec aux n acc rest =
+    if n = 0 then (rest, List.rev acc)
     else
-      match l with
+      match rest with
       | [] -> failwith "empty list"
-      | x :: xs -> x :: aux (n - 1) xs
+      | x :: xs -> aux (n - 1) (x :: acc) xs
   in
-  aux n l
+  aux n [] l
