@@ -9,5 +9,9 @@
   test_board
   test_roster
   test_lineup_generator
-  test_lineup_strategy)
+  test_lineup_strategy
+  test_card_pool
+  test_position
+  test_deck
+  test_utils)
  (libraries alcotest cachio))
