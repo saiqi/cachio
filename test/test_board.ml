@@ -1,5 +1,22 @@
 open Cachio
 
+let player_id =
+  Alcotest.testable
+    (fun fmt x -> Format.pp_print_int fmt (Player_id.to_int x))
+    Player_id.equal
+
+let row =
+  Alcotest.testable
+    (fun fmt r -> Format.pp_print_int fmt (Row.to_int r))
+    Row.equal
+
+let column =
+  Alcotest.testable
+    (fun fmt c -> Format.pp_print_int fmt (Column.to_int c))
+    Column.equal
+
+let placement = Alcotest.(triple player_id row column)
+
 let test_place () =
   let player_id = Player_id.of_int 0 in
   let row = Row.of_int_exn 0 in
@@ -60,10 +77,23 @@ let test_is_not_valid () =
   in
   Alcotest.check Alcotest.bool "is board not valid" false (Board.is_valid board)
 
+let test_to_list () =
+  let l =
+    Board.place (Player_id.of_int 0) (Row.of_int_exn 0) (Column.of_int_exn 0)
+      Board.empty
+    |> Board.to_list
+  in
+  Alcotest.check
+    Alcotest.(list placement)
+    "same list"
+    [ (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0) ]
+    l
+
 let suite =
   [
     ("place player", `Quick, test_place);
     ("players on row", `Quick, test_player_on_rows);
     ("is valid", `Quick, test_is_valid);
     ("is not valid", `Quick, test_is_not_valid);
+    ("to list", `Quick, test_to_list);
   ]

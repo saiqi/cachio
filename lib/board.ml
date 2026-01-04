@@ -54,6 +54,13 @@ let row pos =
 
 let of_list l = List.fold_left (fun acc (i, r, c) -> place i r c acc) empty l
 
+let to_list m =
+  PosMap.to_list m
+  |> List.fold_left
+       (fun acc ((r, c), cell) ->
+         match cell with Empty -> acc | Occupied p -> (p, r, c) :: acc)
+       []
+
 let is_valid m =
   let rows = Position.all_positions |> List.map row in
   List.for_all

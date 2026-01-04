@@ -1,5 +1,21 @@
 open Cachio
 
+let test_compute_postion_score () =
+  let positions = Position.all_positions in
+  List.iter
+    (fun p ->
+      let player = Player.create (Player_id.of_int 0) p (Score.of_int_exn 3) in
+      let roster = Roster.add player Roster.empty in
+      let board =
+        Board.place (Player.id player) (Board.row p) (Column.of_int_exn 0)
+          Board.empty
+      in
+      Alcotest.check Alcotest.int
+        (Position.string_of_position p)
+        3
+        (Round.compute_position_score ~board ~roster ~position:p))
+    positions
+
 let test_compute_param_happy_path () =
   let score = Score.of_int_exn 3 in
   let pick_pos pid =
@@ -88,6 +104,7 @@ let test_resolve () =
 
 let suite =
   [
+    ("compute position score", `Quick, test_compute_postion_score);
     ("compute param happy path", `Quick, test_compute_param_happy_path);
     ("compute param empty", `Quick, test_compute_param_empty);
     ("resolve", `Quick, test_resolve);

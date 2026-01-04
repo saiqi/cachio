@@ -15,6 +15,8 @@ module type S = sig
   val decr : t -> t
   val add : t -> t -> int
   val compare : t -> t -> int
+  val equal : t -> t -> bool
+  val all : t list
 end
 
 module Make (_ : BOUNDS) : S

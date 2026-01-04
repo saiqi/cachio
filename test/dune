@@ -7,5 +7,7 @@
   test_rules
   test_round
   test_board
-  test_roster)
+  test_roster
+  test_lineup_generator
+  test_lineup_strategy)
  (libraries alcotest cachio))

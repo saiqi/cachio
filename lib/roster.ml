@@ -7,3 +7,4 @@ let add p m = M.add (Player.id p) p m
 let find_opt = M.find_opt
 let find = M.find
 let of_list l = List.fold_left (fun acc p -> add p acc) empty l
+let to_list m = M.to_list m |> List.map (fun (_, p) -> p)
