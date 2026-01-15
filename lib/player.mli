@@ -9,3 +9,4 @@ val incr_shape : t -> t
 val decr_shape : t -> t
 val incr_score : t -> t
 val decr_score : t -> t
+val equal : t -> t -> bool

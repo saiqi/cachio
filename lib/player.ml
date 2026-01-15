@@ -22,3 +22,6 @@ let incr_score x =
 
 let decr_score x =
   { id = x.id; pos = x.pos; shape = x.shape; score = Score.decr x.score }
+
+let equal p1 p2 =
+  p1.id = p2.id && p1.pos = p2.pos && p1.shape = p2.shape && p1.score = p2.score
