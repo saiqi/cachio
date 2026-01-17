@@ -1,9 +1,11 @@
-let draw n l =
-  let rec aux n acc rest =
-    if n = 0 then (rest, List.rev acc)
-    else
-      match rest with
-      | [] -> failwith "empty list"
-      | x :: xs -> aux (n - 1) (x :: acc) xs
-  in
-  aux n [] l
+let rec take n = function
+  | [] -> []
+  | _ when n <= 0 -> []
+  | x :: xs -> x :: take (n - 1) xs
+
+let rec drop n = function
+  | [] -> []
+  | xs when n <= 0 -> xs
+  | _ :: xs -> drop (n - 1) xs
+
+let draw n l = (drop n l, take n l)
