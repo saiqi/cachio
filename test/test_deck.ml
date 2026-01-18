@@ -1,16 +1,5 @@
 open Cachio
 
-module Fake_rng = struct
-  type t = int list ref
-
-  let int rng bound =
-    match !rng with
-    | x :: xs ->
-        rng := xs;
-        x mod bound
-    | [] -> 0
-end
-
 let test_shuffle () =
   let rng = ref [ 3; 1; 4; 1; 5 ] in
   let deck = Deck.shuffle (module Fake_rng) rng Deck.full in

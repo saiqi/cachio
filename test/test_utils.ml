@@ -16,9 +16,18 @@ let test_drop () =
   let dropped = Utils.drop 2 input in
   Alcotest.check (Alcotest.list Alcotest.int) "list equals" [ 3; 4 ] dropped
 
+let test_shuffle () =
+  let input = [ 1; 2; 3; 4 ] in
+  let rng = ref [ 0; 0; 0; 0 ] in
+  let shuffled = Utils.shuffle (module Fake_rng) rng input in
+  Alcotest.check
+    (Alcotest.list Alcotest.int)
+    "list shuffled" [ 2; 3; 4; 1 ] shuffled
+
 let suite =
   [
     ("draw", `Quick, test_draw);
     ("take", `Quick, test_take);
     ("drop", `Quick, test_drop);
+    ("shuffle", `Quick, test_shuffle);
   ]
