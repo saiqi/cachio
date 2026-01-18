@@ -6,8 +6,8 @@ end
 module type S = sig
   type t
 
-  val min : int
-  val max : int
+  val min : t
+  val max : t
   val of_int : int -> t option
   val of_int_exn : int -> t
   val to_int : t -> int
@@ -22,13 +22,13 @@ end
 module Make (B : BOUNDS) : S = struct
   type t = int
 
-  let min = B.min
-  let max = B.max
-  let of_int x = if x >= min && x <= max then Some x else None
+  let of_int x = if x >= B.min && x <= B.max then Some x else None
 
   let of_int_exn x =
     match of_int x with Some v -> v | None -> invalid_arg "of_int"
 
+  let min = of_int_exn B.min
+  let max = of_int_exn B.max
   let to_int (x : t) = x
   let clamp x = if x < min then min else if x > max then max else x
   let incr x = clamp (x + 1)
