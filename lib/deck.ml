@@ -1,7 +1,6 @@
 module PosMap = Map.Make (Position)
 
 type t = Card.t list PosMap.t
-type shuffle = Card.t list -> Card.t list
 
 let empty = PosMap.empty
 

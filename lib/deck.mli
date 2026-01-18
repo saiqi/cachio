@@ -1,5 +1,4 @@
 type t
-type shuffle = Card.t list -> Card.t list
 
 val empty : t
 val full : t
