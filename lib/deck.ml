@@ -15,10 +15,12 @@ let full =
 
 let find position deck = PosMap.find position deck
 
-let shuffle shuffle deck =
+let shuffle (type a) (module R : Rng.S with type t = a) (rng : a) deck =
   Position.all_positions
   |> List.map (fun p -> (p, PosMap.find p deck))
-  |> List.fold_left (fun acc (p, l) -> PosMap.add p (shuffle l) acc) deck
+  |> List.fold_left
+       (fun acc (p, l) -> PosMap.add p (Utils.shuffle (module R) rng l) acc)
+       deck
 
 let draw position n deck =
   let rest, taken = Utils.draw n (PosMap.find position deck) in
