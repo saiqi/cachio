@@ -25,3 +25,31 @@ let decr_score x =
 
 let equal p1 p2 =
   p1.id = p2.id && p1.pos = p2.pos && p1.shape = p2.shape && p1.score = p2.score
+
+let is_injured p = Shape.to_int (shape p) = Shape.min
+
+let adjust_score p position =
+  if is_injured p then
+    {
+      id = id p;
+      pos = pos p;
+      shape = shape p;
+      score = Score.of_int_exn Score.min;
+    }
+  else
+    match pos p with
+    | Position.Defender -> (
+        match position with
+        | Position.Defender -> p
+        | Position.Midfielder -> decr_score p
+        | Position.Forward -> decr_score (decr_score p))
+    | Position.Midfielder -> (
+        match position with
+        | Position.Defender -> decr_score p
+        | Position.Midfielder -> p
+        | Position.Forward -> decr_score (decr_score p))
+    | Position.Forward -> (
+        match position with
+        | Position.Defender -> decr_score (decr_score p)
+        | Position.Midfielder -> decr_score p
+        | Position.Forward -> p)

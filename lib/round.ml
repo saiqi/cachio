@@ -3,7 +3,9 @@ let compute_position_score ~board ~roster ~position =
   List.fold_left
     (fun acc player_id ->
       let player = Roster.find player_id roster in
-      let s = Rules.adjust_score player position |> Score.to_int in
+      let s =
+        Player.adjust_score player position |> Player.score |> Score.to_int
+      in
       acc + s)
     0 players_in_position
 

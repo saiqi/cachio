@@ -30,14 +30,15 @@ let test_adjust_player_score () =
     (fun (player, subcases) ->
       List.iter
         (fun (pos, expected) ->
-          let result = Rules.adjust_score player pos in
+          let result = Player.adjust_score player pos in
           let label =
             "player "
             ^ (Player.id player |> Player_id.to_int |> string_of_int)
             ^ " / "
             ^ Position.string_of_position (Player.pos player)
           in
-          Alcotest.check Alcotest.int label expected (Score.to_int result))
+          Alcotest.check Alcotest.int label expected
+            (Score.to_int (Player.score result)))
         subcases)
     cases
 
@@ -51,7 +52,7 @@ let test_is_player_injured () =
   let cases = [ (p, false); (p1, false); (p2, false); (p3, true) ] in
   List.iter
     (fun (player, expected) ->
-      let result = Rules.is_injured player in
+      let result = Player.is_injured player in
       let label = Player.shape player |> Shape.to_int |> string_of_int in
       Alcotest.check Alcotest.bool label expected result)
     cases

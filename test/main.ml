@@ -4,7 +4,7 @@ let () =
   run "Cachio"
     [
       ("Piecewise", Test_piecewise.suite);
-      ("Rules", Test_rules.suite);
+      ("Player", Test_player.suite);
       ("Bounded_int", Test_bounded_int.suite);
       ("Board", Test_board.suite);
       ("Roster", Test_roster.suite);

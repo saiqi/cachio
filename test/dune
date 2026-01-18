@@ -5,7 +5,7 @@
   fake_rng
   test_piecewise
   test_bounded_int
-  test_rules
+  test_player
   test_round
   test_board
   test_roster
