@@ -15,5 +15,6 @@
   test_position
   test_deck
   test_utils
-  test_schedule)
+  test_schedule
+  test_dice)
  (libraries alcotest cachio))

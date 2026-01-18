@@ -32,23 +32,32 @@ let compute_param ~home ~board ~roster =
   in
   Round_param.create ~offensive_dices ~defensive_dices ~actions
 
-let resolve_action ~roll ~attacker ~defender =
-  let total_attacker = roll (Round_param.offensive_dices attacker) in
-  let total_defender = roll (Round_param.defensive_dices defender) in
+let resolve_action (type a) (module R : Rng.S with type t = a) (rng : a)
+    ~attacker ~defender =
+  let total_attacker =
+    Dice.roll (module R) rng (Round_param.offensive_dices attacker)
+  in
+  let total_defender =
+    Dice.roll (module R) rng (Round_param.defensive_dices defender)
+  in
   Rules.has_scored total_attacker total_defender
 
-let resolve ~roll ~home ~away =
+let resolve (type a) (module R : Rng.S with type t = a) (rng : a) ~home ~away =
   let h_actions = Action_count.to_int (Round_param.actions home) in
   let a_actions = Action_count.to_int (Round_param.actions away) in
   let steps = max h_actions a_actions in
   let step (h_goals, a_goals) i =
     let h_goals =
-      if i < h_actions && resolve_action ~roll ~attacker:home ~defender:away
+      if
+        i < h_actions
+        && resolve_action (module R) rng ~attacker:home ~defender:away
       then h_goals + 1
       else h_goals
     in
     let a_goals =
-      if i < a_actions && resolve_action ~roll ~attacker:away ~defender:home
+      if
+        i < a_actions
+        && resolve_action (module R) rng ~attacker:away ~defender:home
       then a_goals + 1
       else a_goals
     in

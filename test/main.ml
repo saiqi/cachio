@@ -16,4 +16,5 @@ let () =
       ("Deck", Test_deck.suite);
       ("Utils", Test_utils.suite);
       ("Schedule", Test_schedule.suite);
+      ("Dice", Test_dice.suite);
     ]

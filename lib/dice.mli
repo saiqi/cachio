@@ -1,4 +1,1 @@
-type roll = Dice_count.t -> int
-
-val max : int
-val roll : Dice_count.t -> int
+val roll : (module Rng.S with type t = 'rng) -> 'rng -> Dice_count.t -> int
