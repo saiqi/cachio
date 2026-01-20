@@ -19,4 +19,5 @@ let () =
       ("Dice", Test_dice.suite);
       ("Standing", Test_standing.suite);
       ("Game", Test_game.suite);
+      ("League", Test_league.suite);
     ]

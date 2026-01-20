@@ -44,3 +44,6 @@ let home g = g.home
 let away g = g.away
 let length = List.length
 let to_list x = x
+
+let of_list l =
+  List.map (fun day -> List.map (fun (home, away) -> { home; away }) day) l
