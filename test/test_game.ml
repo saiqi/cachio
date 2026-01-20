@@ -26,8 +26,6 @@ let test_home_advantage () =
     "id pair" (1, 0)
     ( Ai_id.to_int (Game_result.home result),
       Ai_id.to_int (Game_result.away result) );
-  print_endline (Game_result.home_goals result |> string_of_int);
-  print_endline (Game_result.away_goals result |> string_of_int);
   Alcotest.check Alcotest.bool "home won" true
     (Game_result.home_goals result > Game_result.away_goals result)
 
