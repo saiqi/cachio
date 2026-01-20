@@ -18,4 +18,5 @@ let () =
       ("Schedule", Test_schedule.suite);
       ("Dice", Test_dice.suite);
       ("Standing", Test_standing.suite);
+      ("Game", Test_game.suite);
     ]

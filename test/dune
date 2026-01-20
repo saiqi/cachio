@@ -17,5 +17,6 @@
   test_utils
   test_schedule
   test_dice
-  test_standing)
+  test_standing
+  test_game)
  (libraries alcotest cachio))
