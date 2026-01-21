@@ -1,30 +1,26 @@
 type t = {
   result : Game_result.t;
-  home_actions : int;
-  away_actions : int;
-  home_offensive_dices : int;
-  away_offensive_dices : int;
-  home_defensive_dices : int;
-  away_defensive_dices : int;
-  home_strategy : string;
-  away_strategy : string;
+  home_actions : Action_count.t;
+  away_actions : Action_count.t;
+  home_offensive_dices : Dice_count.t;
+  away_offensive_dices : Dice_count.t;
+  home_defensive_dices : Dice_count.t;
+  away_defensive_dices : Dice_count.t;
+  home_strategy : Strategy_id.t;
+  away_strategy : Strategy_id.t;
 }
 
 let create ~result ~home_param ~away_param ~home_strategy ~away_strategy =
   {
     result;
-    home_actions = Round_param.actions home_param |> Action_count.to_int;
-    away_actions = Round_param.actions away_param |> Action_count.to_int;
-    home_offensive_dices =
-      Round_param.offensive_dices home_param |> Dice_count.to_int;
-    away_offensive_dices =
-      Round_param.offensive_dices away_param |> Dice_count.to_int;
-    home_defensive_dices =
-      Round_param.defensive_dices home_param |> Dice_count.to_int;
-    away_defensive_dices =
-      Round_param.defensive_dices away_param |> Dice_count.to_int;
-    home_strategy = Lineup_strategy.id home_strategy |> Strategy_id.to_string;
-    away_strategy = Lineup_strategy.id away_strategy |> Strategy_id.to_string;
+    home_actions = Round_param.actions home_param;
+    away_actions = Round_param.actions away_param;
+    home_offensive_dices = Round_param.offensive_dices home_param;
+    away_offensive_dices = Round_param.offensive_dices away_param;
+    home_defensive_dices = Round_param.defensive_dices home_param;
+    away_defensive_dices = Round_param.defensive_dices away_param;
+    home_strategy;
+    away_strategy;
   }
 
 let result g = g.result
