@@ -1,5 +1,5 @@
 type t = Defender | Midfielder | Forward
 
-val all_positions : t list
-val string_of_position : t -> string
+val all : t list
+val to_string : t -> string
 val compare : t -> t -> int

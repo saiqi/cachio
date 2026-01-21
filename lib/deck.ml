@@ -15,7 +15,7 @@ let full =
 let find position deck = PosMap.find position deck
 
 let shuffle (type a) (module R : Rng.S with type t = a) (rng : a) deck =
-  Position.all_positions
+  Position.all
   |> List.map (fun p -> (p, PosMap.find p deck))
   |> List.fold_left
        (fun acc (p, l) -> PosMap.add p (Utils.shuffle (module R) rng l) acc)

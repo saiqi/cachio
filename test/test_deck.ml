@@ -6,11 +6,10 @@ let test_shuffle () =
   List.iter
     (fun p ->
       let cards = Deck.find p deck in
-      Alcotest.check Alcotest.int
-        (Position.string_of_position p)
+      Alcotest.check Alcotest.int (Position.to_string p)
         (List.length (Deck.find p Deck.full))
         (List.length cards))
-    Position.all_positions
+    Position.all
 
 let test_draw () =
   let deck, cards = Deck.draw Position.Defender 4 Deck.full in

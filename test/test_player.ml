@@ -35,7 +35,7 @@ let test_adjust_player_score () =
             "player "
             ^ (Player.id player |> Player_id.to_int |> string_of_int)
             ^ " / "
-            ^ Position.string_of_position (Player.pos player)
+            ^ Position.to_string (Player.pos player)
           in
           Alcotest.check Alcotest.int label expected
             (Score.to_int (Player.score result)))

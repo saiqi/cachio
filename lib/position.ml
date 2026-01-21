@@ -1,9 +1,8 @@
 type t = Defender | Midfielder | Forward
 
-let all_positions = [ Defender; Midfielder; Forward ]
+let all = [ Defender; Midfielder; Forward ]
 
-let string_of_position x =
-  match x with
+let to_string = function
   | Defender -> "Defender"
   | Midfielder -> "Midfielder"
   | Forward -> "Forward"

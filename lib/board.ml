@@ -62,7 +62,7 @@ let to_list m =
        []
 
 let is_valid m =
-  let rows = Position.all_positions |> List.map row in
+  let rows = Position.all |> List.map row in
   List.for_all
     (fun r -> List.length (player_on_rows m r) >= Rules.min_players_on_row)
     rows

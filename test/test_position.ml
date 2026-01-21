@@ -17,7 +17,7 @@ let test_compare () =
   List.iter
     (fun (x, y, exp) ->
       Alcotest.check Alcotest.int
-        (Position.string_of_position x ^ " " ^ Position.string_of_position y)
+        (Position.to_string x ^ " " ^ Position.to_string y)
         exp (Position.compare x y))
     cases
 
