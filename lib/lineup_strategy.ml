@@ -1,10 +1,13 @@
-type t = { eval : Board.t -> Roster.t -> int }
+type t = { id : Strategy_id.t; eval : Board.t -> Roster.t -> int }
 
-let offense = { eval = Lineup_eval.offense_score }
-let defense = { eval = Lineup_eval.defense_score }
-let balanced = { eval = Lineup_eval.balanced_score }
-let optimal home = { eval = Lineup_eval.optimal_score home }
-let make f = { eval = f }
+let offense = { eval = Lineup_eval.offense_score; id = Strategy_id.Offensive }
+let defense = { eval = Lineup_eval.defense_score; id = Strategy_id.Defensive }
+let balanced = { eval = Lineup_eval.balanced_score; id = Strategy_id.Balanced }
+
+let optimal home =
+  { eval = Lineup_eval.optimal_score home; id = Strategy_id.Optimal }
+
+let make id f = { eval = f; id }
 
 let build ?(generate = Lineup_generator.all) strategy roster =
   let boards = generate roster in
@@ -20,3 +23,5 @@ let build ?(generate = Lineup_generator.all) strategy roster =
           (score0, b0) bs
       in
       best
+
+let id x = x.id

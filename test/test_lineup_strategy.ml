@@ -40,7 +40,8 @@ let test () =
   in
   let generator _ = [ low_board; high_board ] in
   let strategy =
-    Lineup_strategy.make (fun b _ -> if b = high_board then 1 else 0)
+    Lineup_strategy.make Strategy_id.Dummy (fun b _ ->
+        if b = high_board then 1 else 0)
   in
   let best = Lineup_strategy.build ~generate:generator strategy roster in
   let expected =

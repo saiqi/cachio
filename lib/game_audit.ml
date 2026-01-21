@@ -6,9 +6,11 @@ type t = {
   away_offensive_dices : int;
   home_defensive_dices : int;
   away_defensive_dices : int;
+  home_strategy : string;
+  away_strategy : string;
 }
 
-let create ~result ~home_param ~away_param =
+let create ~result ~home_param ~away_param ~home_strategy ~away_strategy =
   {
     result;
     home_actions = Round_param.actions home_param |> Action_count.to_int;
@@ -21,6 +23,8 @@ let create ~result ~home_param ~away_param =
       Round_param.defensive_dices home_param |> Dice_count.to_int;
     away_defensive_dices =
       Round_param.defensive_dices away_param |> Dice_count.to_int;
+    home_strategy = Lineup_strategy.id home_strategy |> Strategy_id.to_string;
+    away_strategy = Lineup_strategy.id away_strategy |> Strategy_id.to_string;
   }
 
 let result g = g.result
@@ -30,3 +34,5 @@ let home_offensive_dices g = g.home_offensive_dices
 let away_offensive_dices g = g.away_offensive_dices
 let home_defensive_dices g = g.home_defensive_dices
 let away_defensive_dices g = g.away_defensive_dices
+let home_strategy g = g.home_strategy
+let away_strategy g = g.away_strategy

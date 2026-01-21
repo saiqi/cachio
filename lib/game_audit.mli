@@ -4,6 +4,8 @@ val create :
   result:Game_result.t ->
   home_param:Round_param.t ->
   away_param:Round_param.t ->
+  home_strategy:Lineup_strategy.t ->
+  away_strategy:Lineup_strategy.t ->
   t
 
 val result : t -> Game_result.t
@@ -13,3 +15,5 @@ val home_offensive_dices : t -> int
 val away_offensive_dices : t -> int
 val home_defensive_dices : t -> int
 val away_defensive_dices : t -> int
+val home_strategy : t -> string
+val away_strategy : t -> string
