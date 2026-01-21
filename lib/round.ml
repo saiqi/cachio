@@ -19,11 +19,11 @@ let compute_param ~home ~board ~roster =
   let defensive_score =
     compute_position_score ~board ~roster ~position:Position.Defender
   in
-  let offensive_dices =
+  let offensive_dice =
     Piecewise.eval Balance.offensive_dice_curve offensive_score
     |> Dice_count.of_int_exn
   in
-  let defensive_dices =
+  let defensive_dice =
     Piecewise.eval Balance.defensive_dice_curve defensive_score
     |> Dice_count.of_int_exn
   in
@@ -32,15 +32,15 @@ let compute_param ~home ~board ~roster =
     + Rules.adjust_home_advantage home
     |> Action_count.of_int_exn
   in
-  Round_param.create ~offensive_dices ~defensive_dices ~actions
+  Round_param.create ~offensive_dice ~defensive_dice ~actions
 
 let resolve_action (type a) (module R : Rng.S with type t = a) (rng : a)
     ~attacker ~defender =
   let total_attacker =
-    Dice.roll (module R) rng (Round_param.offensive_dices attacker)
+    Dice.roll (module R) rng (Round_param.offensive_dice attacker)
   in
   let total_defender =
-    Dice.roll (module R) rng (Round_param.defensive_dices defender)
+    Dice.roll (module R) rng (Round_param.defensive_dice defender)
   in
   Rules.has_scored total_attacker total_defender
 

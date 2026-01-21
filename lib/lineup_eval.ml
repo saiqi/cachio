@@ -11,6 +11,6 @@ let balanced_score board roster =
 
 let optimal_score home board roster =
   let p = Round.compute_param ~home ~board ~roster in
-  Dice_count.to_int (Round_param.offensive_dices p)
-  + Dice_count.to_int (Round_param.defensive_dices p)
+  Dice_count.to_int (Round_param.offensive_dice p)
+  + Dice_count.to_int (Round_param.defensive_dice p)
   + Action_count.to_int (Round_param.actions p)

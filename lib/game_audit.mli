@@ -11,9 +11,9 @@ val create :
 val result : t -> Game_result.t
 val home_actions : t -> Action_count.t
 val away_actions : t -> Action_count.t
-val home_offensive_dices : t -> Dice_count.t
-val away_offensive_dices : t -> Dice_count.t
-val home_defensive_dices : t -> Dice_count.t
-val away_defensive_dices : t -> Dice_count.t
+val home_offensive_dice : t -> Dice_count.t
+val away_offensive_dice : t -> Dice_count.t
+val home_defensive_dice : t -> Dice_count.t
+val away_defensive_dice : t -> Dice_count.t
 val home_strategy : t -> Strategy_id.t
 val away_strategy : t -> Strategy_id.t

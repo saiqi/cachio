@@ -43,19 +43,15 @@ let test_compute_param_happy_path () =
          selected_ids)
   in
   let param = Round.compute_param ~home:false ~board ~roster in
-  let offensive_dices =
-    Round_param.offensive_dices param |> Dice_count.to_int
-  in
-  let defensive_dices =
-    Round_param.defensive_dices param |> Dice_count.to_int
-  in
+  let offensive_dice = Round_param.offensive_dice param |> Dice_count.to_int in
+  let defensive_dice = Round_param.defensive_dice param |> Dice_count.to_int in
   let actions = Round_param.actions param |> Action_count.to_int in
   Alcotest.check Alcotest.int "offensive dices"
     (Piecewise.eval Balance.offensive_dice_curve 6)
-    offensive_dices;
+    offensive_dice;
   Alcotest.check Alcotest.int "defensive dices"
     (Piecewise.eval Balance.defensive_dice_curve 6)
-    defensive_dices;
+    defensive_dice;
   Alcotest.check Alcotest.int "actions"
     (Piecewise.eval Balance.action_curve 6)
     actions
@@ -64,26 +60,22 @@ let test_compute_param_empty () =
   let param =
     Round.compute_param ~home:false ~board:Board.empty ~roster:Roster.empty
   in
-  let offensive_dices =
-    Round_param.offensive_dices param |> Dice_count.to_int
-  in
-  let defensive_dices =
-    Round_param.defensive_dices param |> Dice_count.to_int
-  in
+  let offensive_dice = Round_param.offensive_dice param |> Dice_count.to_int in
+  let defensive_dice = Round_param.defensive_dice param |> Dice_count.to_int in
   let actions = Round_param.actions param |> Action_count.to_int in
-  Alcotest.check Alcotest.int "offensive dices" 1 offensive_dices;
-  Alcotest.check Alcotest.int "defensive dices" 1 defensive_dices;
+  Alcotest.check Alcotest.int "offensive dices" 1 offensive_dice;
+  Alcotest.check Alcotest.int "defensive dices" 1 defensive_dice;
   Alcotest.check Alcotest.int "actions" 1 actions
 
 let test_resolve () =
   let home =
-    Round_param.create ~offensive_dices:(Dice_count.of_int_exn 2)
-      ~defensive_dices:(Dice_count.of_int_exn 2)
+    Round_param.create ~offensive_dice:(Dice_count.of_int_exn 2)
+      ~defensive_dice:(Dice_count.of_int_exn 2)
       ~actions:(Action_count.of_int_exn 2)
   in
   let away =
-    Round_param.create ~offensive_dices:(Dice_count.of_int_exn 1)
-      ~defensive_dices:(Dice_count.of_int_exn 1)
+    Round_param.create ~offensive_dice:(Dice_count.of_int_exn 1)
+      ~defensive_dice:(Dice_count.of_int_exn 1)
       ~actions:(Action_count.of_int_exn 1)
   in
   let rolls = ref [ 5; 3; 2; 5; 0; 0; 0; 0; 3 ] in
