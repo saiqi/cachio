@@ -19,5 +19,6 @@
   test_dice
   test_standing
   test_game
-  test_league)
+  test_league
+  test_stats)
  (libraries alcotest cachio))

@@ -24,6 +24,10 @@ let create ~result ~home_param ~away_param ~home_strategy ~away_strategy =
   }
 
 let result g = g.result
+let home_goals g = Game_result.home_goals g.result
+let away_goals g = Game_result.away_goals g.result
+let home_id g = Game_result.home g.result
+let away_id g = Game_result.away g.result
 let home_actions g = g.home_actions
 let away_actions g = g.away_actions
 let home_offensive_dice g = g.home_offensive_dice

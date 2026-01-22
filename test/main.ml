@@ -20,4 +20,5 @@ let () =
       ("Standing", Test_standing.suite);
       ("Game", Test_game.suite);
       ("League", Test_league.suite);
+      ("Stats", Test_stats.suite);
     ]

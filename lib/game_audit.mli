@@ -9,6 +9,10 @@ val create :
   t
 
 val result : t -> Game_result.t
+val home_goals : t -> int
+val away_goals : t -> int
+val home_id : t -> Ai_id.t
+val away_id : t -> Ai_id.t
 val home_actions : t -> Action_count.t
 val away_actions : t -> Action_count.t
 val home_offensive_dice : t -> Dice_count.t
