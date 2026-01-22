@@ -27,10 +27,13 @@ let test () =
   let schedule =
     Schedule.of_list [ [ (home_id, away_id); (away_id, home_id) ] ]
   in
-  let standing = League.run (module Fake_rng) rng participants schedule in
+  let standing, audits =
+    League.run_with_audit (module Fake_rng) rng participants schedule
+  in
   Alcotest.check
     (Alcotest.pair Alcotest.int Alcotest.int)
     "check game played" (2, 2)
-    (Standing.played home_id standing, Standing.played away_id standing)
+    (Standing.played home_id standing, Standing.played away_id standing);
+  Alcotest.check Alcotest.int "audit length" 2 (List.length audits)
 
 let suite = [ ("expected standing", `Quick, test) ]
