@@ -8,12 +8,3 @@ let to_string = function
   | Balanced -> "Balanced"
   | Optimal -> "Optimal"
   | Dummy -> "Dummy"
-
-let equal x y =
-  match (x, y) with
-  | Defensive, Defensive -> true
-  | Offensive, Offensive -> true
-  | Balanced, Balanced -> true
-  | Optimal, Optimal -> true
-  | Dummy, Dummy -> true
-  | _ -> false

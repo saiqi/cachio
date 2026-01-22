@@ -36,8 +36,8 @@ let test_home_advantage () =
   Alcotest.check Alcotest.bool "consistent actions" true
     (Game_audit.home_actions audit > Game_audit.away_actions audit);
   Alcotest.check Alcotest.bool "consistent home strategy" true
-    (Strategy_id.equal (Game_audit.home_strategy audit) Strategy_id.Offensive);
+    (Game_audit.home_strategy audit = Strategy_id.Offensive);
   Alcotest.check Alcotest.bool "consistent away strategy" true
-    (Strategy_id.equal (Game_audit.away_strategy audit) Strategy_id.Defensive)
+    (Game_audit.away_strategy audit = Strategy_id.Defensive)
 
 let suite = [ ("home advantage", `Quick, test_home_advantage) ]
