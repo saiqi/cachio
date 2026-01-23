@@ -13,7 +13,7 @@ module type S = sig
   val to_int : t -> int
   val incr : t -> t
   val decr : t -> t
-  val add : t -> t -> int
+  val add : t -> t -> t
   val compare : t -> t -> int
   val equal : t -> t -> bool
   val all : t list

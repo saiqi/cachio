@@ -9,6 +9,12 @@ let compute_position_score ~board ~roster ~position =
       acc + s)
     0 players_in_position
 
+let adjust_home_actions home a =
+  if home then
+    Action_count.add a
+      (Action_count.of_int_exn (Rules.adjust_home_advantage home))
+  else a
+
 let compute_param ~home ~board ~roster =
   let offensive_score =
     compute_position_score ~board ~roster ~position:Position.Forward
@@ -29,8 +35,7 @@ let compute_param ~home ~board ~roster =
   in
   let actions =
     Piecewise.eval Balance.action_curve midfield_score
-    + Rules.adjust_home_advantage home
-    |> Action_count.of_int_exn
+    |> Action_count.of_int_exn |> adjust_home_actions home
   in
   Round_param.create ~offensive_dice ~defensive_dice ~actions
 

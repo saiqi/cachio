@@ -9,7 +9,7 @@ let test_arithmetic () =
   let x = Dummy_int.of_int_exn 6 in
   let y = Dummy_int.of_int_exn 3 in
   let r = Dummy_int.add (Dummy_int.incr x) (Dummy_int.decr y) in
-  Alcotest.check Alcotest.int "bounded arithmetic" 8 r
+  Alcotest.check Alcotest.int "bounded arithmetic" 6 (Dummy_int.to_int r)
 
 let test_all () =
   let all_values = Dummy_int.all |> List.map Dummy_int.to_int in
