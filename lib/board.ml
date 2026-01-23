@@ -42,8 +42,8 @@ let player_on_rows m row =
 
 let position row =
   let i = Row.to_int row in
-  if i == 0 then Position.Defender
-  else if i == 1 then Position.Midfielder
+  if i = 0 then Position.Defender
+  else if i = 1 then Position.Midfielder
   else Position.Forward
 
 let row pos =
