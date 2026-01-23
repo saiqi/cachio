@@ -25,3 +25,10 @@ let build ?(generate = Lineup_generator.all) strategy roster =
       best
 
 let id x = x.id
+
+let of_id ~home = function
+  | Strategy_id.Defensive -> defense
+  | Strategy_id.Balanced -> balanced
+  | Strategy_id.Offensive -> offense
+  | Strategy_id.Optimal -> optimal home
+  | _ -> invalid_arg "Not Implemented"
