@@ -1,6 +1,6 @@
-type t = Offensive | Defensive | Balanced | Optimal | Dummy
+type t = Offensive | Defensive | Balanced | Optimal | Dummy | Pragmatic
 
-let all = [ Offensive; Defensive; Balanced; Optimal; Dummy ]
+let all = [ Offensive; Defensive; Balanced; Optimal; Dummy; Pragmatic ]
 
 let to_string = function
   | Offensive -> "Offensive"
@@ -8,3 +8,4 @@ let to_string = function
   | Balanced -> "Balanced"
   | Optimal -> "Optimal"
   | Dummy -> "Dummy"
+  | Pragmatic -> "Pragmatic"
