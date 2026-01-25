@@ -103,6 +103,9 @@ let test_count () =
   Alcotest.check Alcotest.int "expected count" 5 (Board.count board)
 
 let test_can_place () =
+  Alcotest.check Alcotest.bool "can place on empty" true
+    (Board.can_place Board.empty (Player_id.of_int 5) (Row.of_int_exn 0)
+       (Column.of_int_exn 0));
   let board =
     Board.of_list
       [
