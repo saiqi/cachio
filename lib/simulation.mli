@@ -1,6 +1,10 @@
 type t
 
-val of_ais : Ai.t list -> t
+val create :
+  (module Rng.S with type t = 'rng) ->
+  'rng ->
+  (Ai_id.t * Strategy_id.t) list ->
+  t
 
 val run :
   (module Rng.S with type t = 'rng) ->
