@@ -11,17 +11,14 @@ let create_deterministic_ais (type a) (module R : Rng.S with type t = a)
     let all_cards = defenders @ midfielders @ forwards in
     (deck, Roster.of_cards all_cards)
   in
-  let rec build n deck acc =
-    if n = 0 then List.rev acc
-    else
-      let id = Ai_id.of_int n in
-      let deck, roster = draw_roster deck in
-      let strategy =
-        if n <= 2 then Strategy_id.Defensive
-        else if n <= 4 then Strategy_id.Balanced
-        else Strategy_id.Offensive
-      in
-      let ai = Ai.create id roster strategy in
-      build (n - 1) deck (ai :: acc)
+  let rec build n strategies deck acc =
+    match strategies with
+    | [] -> List.rev acc
+    | x :: xs ->
+        let id = Ai_id.of_int n in
+        let deck, roster = draw_roster deck in
+        let ai = Ai.create id roster x in
+        build (n - 1) xs deck (ai :: acc)
   in
-  build 6 deck []
+  let strategies = Strategy_id.all in
+  build (List.length strategies) strategies deck []

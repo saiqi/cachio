@@ -10,6 +10,7 @@ let optimal home =
 let pragmatic home =
   { eval = Lineup_eval.pragmatic_score home; id = Strategy_id.Pragmatic }
 
+let dummy = { eval = Lineup_eval.dummy_score; id = Strategy_id.Dummy }
 let make id f = { eval = f; id }
 
 let build ?(generate = Lineup_generator.all) strategy roster =
@@ -35,4 +36,4 @@ let of_id ~home = function
   | Strategy_id.Offensive -> offense
   | Strategy_id.Optimal -> optimal home
   | Strategy_id.Pragmatic -> pragmatic home
-  | _ -> invalid_arg "Not Implemented"
+  | Strategy_id.Dummy -> dummy
