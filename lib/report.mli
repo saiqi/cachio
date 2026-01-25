@@ -1,4 +1,9 @@
-type value = Float of float | Percent of float | Optional of value option
+type value =
+  | Float of float
+  | Percent of float
+  | Int of int
+  | Optional of value option
+
 type metric
 type section
 type t

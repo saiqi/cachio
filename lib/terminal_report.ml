@@ -3,6 +3,7 @@ let rec string_of_value = function
   | Report.Percent p -> Printf.sprintf "%.1f%%" p
   | Report.Optional None -> "n/a"
   | Report.Optional (Some v) -> string_of_value v
+  | Report.Int i -> Printf.sprintf "%d" i
 
 let print_metric metric =
   Printf.printf "  %-35s %s\n" (Report.name metric)

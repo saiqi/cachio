@@ -1,4 +1,9 @@
-type value = Float of float | Percent of float | Optional of value option
+type value =
+  | Float of float
+  | Percent of float
+  | Int of int
+  | Optional of value option
+
 type metric = { name : string; value : value }
 type section = { title : string; metrics : metric list }
 type t = section list
@@ -24,6 +29,7 @@ let global_section stats =
     title = "Global";
     metrics =
       [
+        metric "Total games" (Int (Stats.game_count stats));
         metric "Goal per game (mean)" (opt_float (Stats.game_goals_mean stats));
         metric "Goal per game (stddev)"
           (opt_float (Stats.game_goals_stddev stats));

@@ -82,6 +82,8 @@ let game_goals_mean stats = stats.games |> total_game_goals |> mean
 let game_goals_stddev stats =
   stats.games |> total_game_goals |> var |> Option.map sqrt
 
+let game_count stats = List.length stats.games
+
 let ratio l =
   if List.length l = 0 then None
   else
