@@ -66,3 +66,21 @@ let is_valid m =
   List.for_all
     (fun r -> List.length (player_on_rows m r) >= Rules.min_players_on_row)
     rows
+
+let count m = m |> PosMap.to_list |> List.length
+
+let can_place m p r c =
+  let m' = place p r c m in
+  let remain = Rules.players_on_board - count m' in
+  let min_def_reachable =
+    List.length (player_on_rows m' (row Position.Defender)) + remain
+  in
+  let min_mid_reachable =
+    List.length (player_on_rows m' (row Position.Midfielder)) + remain
+  in
+  let min_fwd_reachable =
+    List.length (player_on_rows m' (row Position.Forward)) + remain
+  in
+  min_def_reachable >= Rules.min_players_on_row
+  && min_mid_reachable >= Rules.min_players_on_row
+  && min_fwd_reachable >= Rules.min_players_on_row

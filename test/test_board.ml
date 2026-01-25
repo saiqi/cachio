@@ -89,6 +89,40 @@ let test_to_list () =
     [ (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0) ]
     l
 
+let test_count () =
+  let board =
+    Board.of_list
+      [
+        (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0);
+        (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 1);
+        (Player_id.of_int 2, Row.of_int_exn 0, Column.of_int_exn 2);
+        (Player_id.of_int 3, Row.of_int_exn 1, Column.of_int_exn 0);
+        (Player_id.of_int 4, Row.of_int_exn 1, Column.of_int_exn 1);
+      ]
+  in
+  Alcotest.check Alcotest.int "expected count" 5 (Board.count board)
+
+let test_can_place () =
+  let board =
+    Board.of_list
+      [
+        (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0);
+        (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 1);
+        (Player_id.of_int 2, Row.of_int_exn 0, Column.of_int_exn 2);
+        (Player_id.of_int 3, Row.of_int_exn 1, Column.of_int_exn 0);
+        (Player_id.of_int 4, Row.of_int_exn 1, Column.of_int_exn 1);
+      ]
+  in
+  Alcotest.check Alcotest.bool "can place on offense" true
+    (Board.can_place board (Player_id.of_int 5) (Row.of_int_exn 2)
+       (Column.of_int_exn 0));
+  Alcotest.check Alcotest.bool "cannot place on midfield" false
+    (Board.can_place board (Player_id.of_int 5) (Row.of_int_exn 1)
+       (Column.of_int_exn 2));
+  Alcotest.check Alcotest.bool "cannot place on defense" false
+    (Board.can_place board (Player_id.of_int 5) (Row.of_int_exn 0)
+       (Column.of_int_exn 3))
+
 let suite =
   [
     ("place player", `Quick, test_place);
@@ -96,4 +130,6 @@ let suite =
     ("is valid", `Quick, test_is_valid);
     ("is not valid", `Quick, test_is_not_valid);
     ("to list", `Quick, test_to_list);
+    ("count", `Quick, test_count);
+    ("can place", `Quick, test_can_place);
   ]
