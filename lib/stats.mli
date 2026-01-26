@@ -24,3 +24,4 @@ val offensive_dice_stddev : t -> float option
 val defensive_dice_mean : t -> float option
 val defensive_dice_stddev : t -> float option
 val game_count : t -> int
+val board_rotation : t -> float option
