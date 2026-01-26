@@ -8,21 +8,21 @@ let offense =
   {
     eval = Lineup_eval.offense_score;
     id = Strategy_id.Offensive;
-    n_iterations = 200;
+    n_iterations = 1000;
   }
 
 let defense =
   {
     eval = Lineup_eval.defense_score;
     id = Strategy_id.Defensive;
-    n_iterations = 200;
+    n_iterations = 1000;
   }
 
 let balanced =
   {
     eval = Lineup_eval.balanced_score;
     id = Strategy_id.Balanced;
-    n_iterations = 200;
+    n_iterations = 1000;
   }
 
 let optimal home =
@@ -36,7 +36,7 @@ let pragmatic home =
   {
     eval = Lineup_eval.pragmatic_score home;
     id = Strategy_id.Pragmatic;
-    n_iterations = 200;
+    n_iterations = 1000;
   }
 
 let dummy =
