@@ -1,21 +1,56 @@
-type t = { id : Strategy_id.t; eval : Board.t -> Roster.t -> int }
+type t = {
+  id : Strategy_id.t;
+  eval : Board.t -> Roster.t -> int;
+  n_iterations : int;
+}
 
-let offense = { eval = Lineup_eval.offense_score; id = Strategy_id.Offensive }
-let defense = { eval = Lineup_eval.defense_score; id = Strategy_id.Defensive }
-let balanced = { eval = Lineup_eval.balanced_score; id = Strategy_id.Balanced }
+let offense =
+  {
+    eval = Lineup_eval.offense_score;
+    id = Strategy_id.Offensive;
+    n_iterations = 200;
+  }
+
+let defense =
+  {
+    eval = Lineup_eval.defense_score;
+    id = Strategy_id.Defensive;
+    n_iterations = 200;
+  }
+
+let balanced =
+  {
+    eval = Lineup_eval.balanced_score;
+    id = Strategy_id.Balanced;
+    n_iterations = 200;
+  }
 
 let optimal home =
-  { eval = Lineup_eval.optimal_score home; id = Strategy_id.Optimal }
+  {
+    eval = Lineup_eval.optimal_score home;
+    id = Strategy_id.Optimal;
+    n_iterations = 2000;
+  }
 
 let pragmatic home =
-  { eval = Lineup_eval.pragmatic_score home; id = Strategy_id.Pragmatic }
+  {
+    eval = Lineup_eval.pragmatic_score home;
+    id = Strategy_id.Pragmatic;
+    n_iterations = 200;
+  }
 
-let dummy = { eval = Lineup_eval.dummy_score; id = Strategy_id.Dummy }
-let make id f = { eval = f; id }
+let dummy =
+  { eval = Lineup_eval.dummy_score; id = Strategy_id.Dummy; n_iterations = 10 }
+
+let make id f n_iterations = { eval = f; id; n_iterations }
 
 let build (type a) (module R : Rng.S with type t = a) (rng : a)
     ?(generate = Lineup_generator.all) strategy roster =
-  let boards = generate (module R) rng roster in
+  let boards =
+    generate (module R) rng roster
+    |> Seq.take strategy.n_iterations
+    |> List.of_seq
+  in
   match boards with
   | [] -> invalid_arg "Lineup_strategy.build: empty lineup set"
   | b0 :: bs ->

@@ -6,13 +6,13 @@ val balanced : t
 val optimal : bool -> t
 val pragmatic : bool -> t
 val dummy : t
-val make : Strategy_id.t -> (Board.t -> Roster.t -> int) -> t
+val make : Strategy_id.t -> (Board.t -> Roster.t -> int) -> int -> t
 
 val build :
   (module Rng.S with type t = 'rng) ->
   'rng ->
   ?generate:
-    ((module Rng.S with type t = 'rng) -> 'rng -> Roster.t -> Board.t list) ->
+    ((module Rng.S with type t = 'rng) -> 'rng -> Roster.t -> Board.t Seq.t) ->
   t ->
   Roster.t ->
   Board.t

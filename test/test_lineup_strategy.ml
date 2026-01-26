@@ -38,10 +38,11 @@ let test () =
         (p6, Row.of_int_exn 2, Column.of_int_exn 1);
       ]
   in
-  let generator _ _ _ = [ low_board; high_board ] in
+  let generator _ _ _ = [ low_board; high_board ] |> List.to_seq in
   let strategy =
-    Lineup_strategy.make Strategy_id.Dummy (fun b _ ->
-        if b = high_board then 1 else 0)
+    Lineup_strategy.make Strategy_id.Dummy
+      (fun b _ -> if b = high_board then 1 else 0)
+      2
   in
   let rng = ref [] in
   let best =
