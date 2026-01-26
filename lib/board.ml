@@ -67,6 +67,18 @@ let is_valid m =
     (fun r -> List.length (player_on_rows m r) >= Rules.min_players_on_row)
     rows
 
+module RowCount = Map.Make (Row)
+
+let is_shape_valid l =
+  let init = RowCount.of_list (List.map (fun e -> (e, 0)) Row.all) in
+  List.fold_left
+    (fun acc (r, _) ->
+      match RowCount.find_opt r acc with
+      | None -> failwith "row count is not properlty initialized"
+      | Some v -> RowCount.add r (v + 1) acc)
+    init l
+  |> RowCount.for_all (fun _ v -> v >= Rules.min_players_on_row)
+
 let count m = m |> PosMap.to_list |> List.length
 
 let can_place m p r c =

@@ -11,5 +11,6 @@ val row : Position.t -> Row.t
 val of_list : (Player_id.t * Row.t * Column.t) list -> t
 val to_list : t -> (Player_id.t * Row.t * Column.t) list
 val is_valid : t -> bool
+val is_shape_valid : (Row.t * Column.t) list -> bool
 val count : t -> int
 val can_place : t -> Player_id.t -> Row.t -> Column.t -> bool

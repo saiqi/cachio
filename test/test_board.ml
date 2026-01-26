@@ -126,6 +126,33 @@ let test_can_place () =
     (Board.can_place board (Player_id.of_int 5) (Row.of_int_exn 0)
        (Column.of_int_exn 3))
 
+let test_is_shape_valid () =
+  let l =
+    [
+      (Row.of_int_exn 0, Column.of_int_exn 0);
+      (Row.of_int_exn 0, Column.of_int_exn 1);
+      (Row.of_int_exn 1, Column.of_int_exn 0);
+      (Row.of_int_exn 1, Column.of_int_exn 1);
+      (Row.of_int_exn 2, Column.of_int_exn 0);
+      (Row.of_int_exn 2, Column.of_int_exn 1);
+    ]
+  in
+  Alcotest.check Alcotest.bool "shape is valid" true (Board.is_shape_valid l)
+
+let test_is_shape_not_valid () =
+  let l =
+    [
+      (Row.of_int_exn 0, Column.of_int_exn 0);
+      (Row.of_int_exn 0, Column.of_int_exn 1);
+      (Row.of_int_exn 0, Column.of_int_exn 2);
+      (Row.of_int_exn 0, Column.of_int_exn 3);
+      (Row.of_int_exn 2, Column.of_int_exn 0);
+      (Row.of_int_exn 2, Column.of_int_exn 1);
+    ]
+  in
+  Alcotest.check Alcotest.bool "shape is not valid" false
+    (Board.is_shape_valid l)
+
 let suite =
   [
     ("place player", `Quick, test_place);
@@ -135,4 +162,6 @@ let suite =
     ("to list", `Quick, test_to_list);
     ("count", `Quick, test_count);
     ("can place", `Quick, test_can_place);
+    ("is shape valid", `Quick, test_is_shape_valid);
+    ("is shape not valid", `Quick, test_is_shape_not_valid);
   ]
