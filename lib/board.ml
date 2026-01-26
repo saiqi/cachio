@@ -96,3 +96,19 @@ let can_place m p r c =
   min_def_reachable >= Rules.min_players_on_row
   && min_mid_reachable >= Rules.min_players_on_row
   && min_fwd_reachable >= Rules.min_players_on_row
+
+let compare_placement (r1, c1, p1) (r2, c2, p2) =
+  match Row.compare r1 r2 with
+  | 0 -> (
+      match Column.compare c1 c2 with 0 -> Player_id.compare p1 p2 | x -> x)
+  | x -> x
+
+let hash board =
+  let placements =
+    PosMap.fold
+      (fun (row, col) cell acc ->
+        match cell with Empty -> acc | Occupied pid -> (row, col, pid) :: acc)
+      board []
+    |> List.sort compare_placement
+  in
+  Hashtbl.hash placements

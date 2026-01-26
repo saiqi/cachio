@@ -153,6 +153,21 @@ let test_is_shape_not_valid () =
   Alcotest.check Alcotest.bool "shape is not valid" false
     (Board.is_shape_valid l)
 
+let test_hash () =
+  let values =
+    [
+      (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0);
+      (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 1);
+      (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 2);
+      (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 3);
+      (Player_id.of_int 0, Row.of_int_exn 1, Column.of_int_exn 0);
+      (Player_id.of_int 0, Row.of_int_exn 2, Column.of_int_exn 0);
+    ]
+  in
+  let b1 = Board.of_list values in
+  let b2 = Board.of_list values in
+  Alcotest.check Alcotest.bool "hash equals" true (Board.hash b1 = Board.hash b2)
+
 let suite =
   [
     ("place player", `Quick, test_place);
@@ -164,4 +179,5 @@ let suite =
     ("can place", `Quick, test_can_place);
     ("is shape valid", `Quick, test_is_shape_valid);
     ("is shape not valid", `Quick, test_is_shape_not_valid);
+    ("hash", `Quick, test_hash);
   ]
