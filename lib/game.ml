@@ -1,12 +1,13 @@
 let play_with_audit (type a) (module R : Rng.S with type t = a) (rng : a) ~home
     ~away =
   let home_param =
-    Round.compute_param ~home:true ~board:(Ai.build_board home true)
+    Round.compute_param ~home:true
+      ~board:(Ai.build_board (module R) rng home true)
       ~roster:(Ai.roster home)
   in
   let away_param =
     Round.compute_param ~home:false
-      ~board:(Ai.build_board away false)
+      ~board:(Ai.build_board (module R) rng away false)
       ~roster:(Ai.roster away)
   in
   let home_goals, away_goals =

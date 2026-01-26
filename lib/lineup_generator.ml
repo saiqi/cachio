@@ -13,9 +13,12 @@ let all_configs =
   |> combinations Rules.players_on_board
   |> List.filter Board.is_shape_valid
 
-let all roster =
-  let players = Roster.to_list roster in
-  let player_sets = combinations Rules.players_on_board players in
+let all (type a) (module R : Rng.S with type t = a) (rng : a) roster =
+  let players = Roster.to_list roster |> Utils.shuffle (module R) rng in
+  let player_sets =
+    combinations Rules.players_on_board players |> Utils.shuffle (module R) rng
+  in
+  let configs = all_configs |> Utils.shuffle (module R) rng in
   let candidates =
     List.concat_map
       (fun ps ->
@@ -26,7 +29,7 @@ let all roster =
             List.fold_left2
               (fun board p_id (row, col) -> Board.place p_id row col board)
               Board.empty p_ids placements)
-          all_configs)
+          configs)
       player_sets
   in
   candidates

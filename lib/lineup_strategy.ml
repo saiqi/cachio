@@ -13,8 +13,9 @@ let pragmatic home =
 let dummy = { eval = Lineup_eval.dummy_score; id = Strategy_id.Dummy }
 let make id f = { eval = f; id }
 
-let build ?(generate = Lineup_generator.all) strategy roster =
-  let boards = generate roster in
+let build (type a) (module R : Rng.S with type t = a) (rng : a)
+    ?(generate = Lineup_generator.all) strategy roster =
+  let boards = generate (module R) rng roster in
   match boards with
   | [] -> invalid_arg "Lineup_strategy.build: empty lineup set"
   | b0 :: bs ->

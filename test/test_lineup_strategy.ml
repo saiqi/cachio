@@ -38,12 +38,17 @@ let test () =
         (p6, Row.of_int_exn 2, Column.of_int_exn 1);
       ]
   in
-  let generator _ = [ low_board; high_board ] in
+  let generator _ _ _ = [ low_board; high_board ] in
   let strategy =
     Lineup_strategy.make Strategy_id.Dummy (fun b _ ->
         if b = high_board then 1 else 0)
   in
-  let best = Lineup_strategy.build ~generate:generator strategy roster in
+  let rng = ref [] in
+  let best =
+    Lineup_strategy.build
+      (module Fake_rng)
+      rng ~generate:generator strategy roster
+  in
   let expected =
     [ (0, 0, 0); (1, 0, 1); (2, 1, 2); (3, 1, 0); (4, 2, 0); (5, 2, 1) ]
     |> List.sort compare

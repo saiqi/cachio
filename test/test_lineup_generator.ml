@@ -8,7 +8,8 @@ let test () =
           (Score.of_int_exn 3))
     |> Roster.of_list
   in
-  let boards = Lineup_generator.all roster in
+  let rng = ref [] in
+  let boards = Lineup_generator.all (module Fake_rng) rng roster in
   Alcotest.check Alcotest.bool "boards not empty" true (List.length boards > 0);
   Alcotest.check Alcotest.bool "valid boards" true
     (List.for_all Board.is_valid boards)
