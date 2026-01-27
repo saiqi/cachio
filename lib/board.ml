@@ -112,3 +112,12 @@ let hash board =
     |> List.sort compare_placement
   in
   Hashtbl.hash placements
+
+let rotate board =
+  to_list board
+  |> List.map (fun (p, r, c) ->
+      let new_c =
+        Column.of_int_exn (Column.to_int Column.max - Column.to_int c)
+      in
+      (p, r, new_c))
+  |> of_list

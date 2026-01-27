@@ -15,3 +15,4 @@ val is_shape_valid : (Row.t * Column.t) list -> bool
 val count : t -> int
 val can_place : t -> Player_id.t -> Row.t -> Column.t -> bool
 val hash : t -> int
+val rotate : t -> t

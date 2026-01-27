@@ -168,6 +168,31 @@ let test_hash () =
   let b2 = Board.of_list values in
   Alcotest.check Alcotest.bool "hash equals" true (Board.hash b1 = Board.hash b2)
 
+let test_rotate () =
+  let rotated_board =
+    Board.of_list
+      [
+        (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0);
+        (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 1);
+        (Player_id.of_int 2, Row.of_int_exn 0, Column.of_int_exn 2);
+        (Player_id.of_int 3, Row.of_int_exn 0, Column.of_int_exn 3);
+        (Player_id.of_int 4, Row.of_int_exn 1, Column.of_int_exn 0);
+        (Player_id.of_int 5, Row.of_int_exn 2, Column.of_int_exn 0);
+      ]
+    |> Board.rotate
+  in
+  let sort_placement (p1, _, _) (p2, _, _) = Player_id.compare p1 p2 in
+  Alcotest.check (Alcotest.list placement) "rotate 180"
+    [
+      (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 3);
+      (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 2);
+      (Player_id.of_int 2, Row.of_int_exn 0, Column.of_int_exn 1);
+      (Player_id.of_int 3, Row.of_int_exn 0, Column.of_int_exn 0);
+      (Player_id.of_int 4, Row.of_int_exn 1, Column.of_int_exn 3);
+      (Player_id.of_int 5, Row.of_int_exn 2, Column.of_int_exn 3);
+    ]
+    (Board.to_list rotated_board |> List.sort sort_placement)
+
 let suite =
   [
     ("place player", `Quick, test_place);
@@ -180,4 +205,5 @@ let suite =
     ("is shape valid", `Quick, test_is_shape_valid);
     ("is shape not valid", `Quick, test_is_shape_not_valid);
     ("hash", `Quick, test_hash);
+    ("rotate", `Quick, test_rotate);
   ]
