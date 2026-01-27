@@ -51,8 +51,6 @@ let global_section stats =
           (opt_float (Stats.offensive_dice_per_goal stats));
         metric "Defensive dice per goals conceded"
           (opt_float (Stats.defensive_dice_per_goal_conceded stats));
-        metric "Board rotation (%)"
-          (opt_percent (Stats.board_rotation stats |> percent));
       ];
   }
 
@@ -97,8 +95,6 @@ let strategy_section stats =
               (opt_float (Stats.offensive_dice_per_goal strat_stats));
             metric "Defensive dice per goals conceded"
               (opt_float (Stats.defensive_dice_per_goal_conceded strat_stats));
-            metric "Board rotation (%)"
-              (opt_percent (Stats.board_rotation stats |> percent));
           ];
       })
     Strategy_id.all

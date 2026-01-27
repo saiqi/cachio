@@ -23,12 +23,10 @@ let fake_stats () =
     [
       Game_audit.create ~result:first_result ~home_param ~away_param
         ~home_strategy:Strategy_id.Offensive
-        ~away_strategy:Strategy_id.Defensive ~home_board_hash:0
-        ~away_board_hash:1;
+        ~away_strategy:Strategy_id.Defensive;
       Game_audit.create ~result:second_result ~home_param ~away_param
         ~home_strategy:Strategy_id.Defensive
-        ~away_strategy:Strategy_id.Offensive ~home_board_hash:2
-        ~away_board_hash:3;
+        ~away_strategy:Strategy_id.Offensive;
     ]
 
 let test_audit_to_obs () =
@@ -78,12 +76,6 @@ let test_goals_per_action () =
   | None -> Alcotest.fail "goals per action is none"
   | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) "goals per action" 0.5 v
 
-let test_board_rotation () =
-  let stats = fake_stats () in
-  match Stats.board_rotation stats with
-  | None -> Alcotest.fail "board rotation is none"
-  | Some v -> Alcotest.(check (Alcotest.float 1e-6)) "board rotation" 1. v
-
 let suite =
   [
     ("audit to obs", `Quick, test_audit_to_obs);
@@ -93,5 +85,4 @@ let suite =
     ("filter by home", `Quick, test_by_home);
     ("filter by AI", `Quick, test_by_ai);
     ("goals per action", `Quick, test_goals_per_action);
-    ("board rotation", `Quick, test_board_rotation);
   ]

@@ -9,7 +9,6 @@ type obs = {
   actions : Action_count.t;
   offensive_dice : Dice_count.t;
   defensive_dice : Dice_count.t;
-  board_hash : int;
   outcome : outcome;
 }
 
@@ -28,7 +27,6 @@ let obs_of_audit audit =
       actions = Game_audit.home_actions audit;
       offensive_dice = Game_audit.home_offensive_dice audit;
       defensive_dice = Game_audit.home_defensive_dice audit;
-      board_hash = Game_audit.home_board_hash audit;
       outcome =
         (if home_goals > away_goals then Win
          else if home_goals = away_goals then Draw
@@ -43,7 +41,6 @@ let obs_of_audit audit =
       actions = Game_audit.away_actions audit;
       offensive_dice = Game_audit.away_offensive_dice audit;
       defensive_dice = Game_audit.away_defensive_dice audit;
-      board_hash = Game_audit.away_board_hash audit;
       outcome =
         (if home_goals < away_goals then Win
          else if home_goals = away_goals then Draw
@@ -146,17 +143,3 @@ let defensive_dice_mean stats =
 
 let defensive_dice_stddev stats =
   obs_stddev stats (fun o -> o.defensive_dice |> Dice_count.to_int)
-
-module BoardHashSet = Set.Make (Int)
-
-let board_rotation stats =
-  let n = List.length stats.obs in
-  if n = 0 then None
-  else
-    let distinct_boards =
-      List.fold_left
-        (fun acc o -> BoardHashSet.add o.board_hash acc)
-        BoardHashSet.empty stats.obs
-      |> BoardHashSet.to_list |> List.length
-    in
-    Some (float_of_int distinct_boards /. float_of_int n)
