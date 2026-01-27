@@ -95,6 +95,8 @@ let strategy_section stats =
               (opt_float (Stats.offensive_dice_per_goal strat_stats));
             metric "Defensive dice per goals conceded"
               (opt_float (Stats.defensive_dice_per_goal_conceded strat_stats));
+            metric "Board normalized entropy"
+              (opt_float (Stats.board_normalized_entropy strat_stats));
           ];
       })
     Strategy_id.all

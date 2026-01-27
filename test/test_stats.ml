@@ -11,6 +11,28 @@ let fake_stats () =
       ~defensive_dice:(Dice_count.of_int_exn 2)
       ~actions:(Action_count.of_int_exn 1)
   in
+  let home_board =
+    Board.of_list
+      [
+        (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0);
+        (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 1);
+        (Player_id.of_int 2, Row.of_int_exn 1, Column.of_int_exn 0);
+        (Player_id.of_int 3, Row.of_int_exn 1, Column.of_int_exn 1);
+        (Player_id.of_int 4, Row.of_int_exn 2, Column.of_int_exn 0);
+        (Player_id.of_int 5, Row.of_int_exn 2, Column.of_int_exn 1);
+      ]
+  in
+  let away_board =
+    Board.of_list
+      [
+        (Player_id.of_int 6, Row.of_int_exn 0, Column.of_int_exn 3);
+        (Player_id.of_int 7, Row.of_int_exn 0, Column.of_int_exn 2);
+        (Player_id.of_int 8, Row.of_int_exn 1, Column.of_int_exn 3);
+        (Player_id.of_int 9, Row.of_int_exn 1, Column.of_int_exn 2);
+        (Player_id.of_int 10, Row.of_int_exn 2, Column.of_int_exn 3);
+        (Player_id.of_int 11, Row.of_int_exn 2, Column.of_int_exn 2);
+      ]
+  in
   let first_result =
     Game_result.create ~home:(Ai_id.of_int 0) ~home_goals:1
       ~away:(Ai_id.of_int 1) ~away_goals:0
@@ -23,10 +45,10 @@ let fake_stats () =
     [
       Game_audit.create ~result:first_result ~home_param ~away_param
         ~home_strategy:Strategy_id.Offensive
-        ~away_strategy:Strategy_id.Defensive;
+        ~away_strategy:Strategy_id.Defensive ~home_board ~away_board;
       Game_audit.create ~result:second_result ~home_param ~away_param
         ~home_strategy:Strategy_id.Defensive
-        ~away_strategy:Strategy_id.Offensive;
+        ~away_strategy:Strategy_id.Offensive ~home_board ~away_board;
     ]
 
 let test_audit_to_obs () =
@@ -76,6 +98,13 @@ let test_goals_per_action () =
   | None -> Alcotest.fail "goals per action is none"
   | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) "goals per action" 0.5 v
 
+let test_board_entropy () =
+  let stats = fake_stats () in
+  let off_stats = Stats.by_strategy stats Strategy_id.Offensive in
+  match Stats.board_entropy off_stats with
+  | None -> Alcotest.fail "entropy is none"
+  | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) "board entropy" 0. v
+
 let suite =
   [
     ("audit to obs", `Quick, test_audit_to_obs);
@@ -85,4 +114,5 @@ let suite =
     ("filter by home", `Quick, test_by_home);
     ("filter by AI", `Quick, test_by_ai);
     ("goals per action", `Quick, test_goals_per_action);
+    ("board entropy", `Quick, test_board_entropy);
   ]

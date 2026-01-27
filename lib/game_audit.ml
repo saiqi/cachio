@@ -8,9 +8,12 @@ type t = {
   away_defensive_dice : Dice_count.t;
   home_strategy : Strategy_id.t;
   away_strategy : Strategy_id.t;
+  home_board_shape : int;
+  away_board_shape : int;
 }
 
-let create ~result ~home_param ~away_param ~home_strategy ~away_strategy =
+let create ~result ~home_param ~away_param ~home_strategy ~away_strategy
+    ~home_board ~away_board =
   {
     result;
     home_actions = Round_param.actions home_param;
@@ -21,6 +24,8 @@ let create ~result ~home_param ~away_param ~home_strategy ~away_strategy =
     away_defensive_dice = Round_param.defensive_dice away_param;
     home_strategy;
     away_strategy;
+    home_board_shape = Board_symmetry.canonical_hash home_board;
+    away_board_shape = Board_symmetry.canonical_hash away_board;
   }
 
 let result g = g.result
@@ -36,3 +41,5 @@ let home_defensive_dice g = g.home_defensive_dice
 let away_defensive_dice g = g.away_defensive_dice
 let home_strategy g = g.home_strategy
 let away_strategy g = g.away_strategy
+let home_board_shape g = g.home_board_shape
+let away_board_shape g = g.away_board_shape

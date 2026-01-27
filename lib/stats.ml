@@ -9,6 +9,7 @@ type obs = {
   actions : Action_count.t;
   offensive_dice : Dice_count.t;
   defensive_dice : Dice_count.t;
+  board_shape : int;
   outcome : outcome;
 }
 
@@ -27,6 +28,7 @@ let obs_of_audit audit =
       actions = Game_audit.home_actions audit;
       offensive_dice = Game_audit.home_offensive_dice audit;
       defensive_dice = Game_audit.home_defensive_dice audit;
+      board_shape = Game_audit.home_board_shape audit;
       outcome =
         (if home_goals > away_goals then Win
          else if home_goals = away_goals then Draw
@@ -41,6 +43,7 @@ let obs_of_audit audit =
       actions = Game_audit.away_actions audit;
       offensive_dice = Game_audit.away_offensive_dice audit;
       defensive_dice = Game_audit.away_defensive_dice audit;
+      board_shape = Game_audit.away_board_shape audit;
       outcome =
         (if home_goals < away_goals then Win
          else if home_goals = away_goals then Draw
@@ -143,3 +146,37 @@ let defensive_dice_mean stats =
 
 let defensive_dice_stddev stats =
   obs_stddev stats (fun o -> o.defensive_dice |> Dice_count.to_int)
+
+module IntMap = Map.Make (Int)
+
+let board_frequencies stats =
+  List.fold_left
+    (fun acc o ->
+      IntMap.update o.board_shape
+        (function None -> Some 1 | Some v -> Some (v + 1))
+        acc)
+    IntMap.empty stats.obs
+
+let board_entropy stats =
+  let n = List.length stats.obs in
+  if n = 0 then None
+  else
+    let freqs = board_frequencies stats in
+    let total = float_of_int n in
+    let h =
+      IntMap.fold
+        (fun _ count acc ->
+          let p = float_of_int count /. total in
+          acc -. (p *. log p))
+        freqs 0.0
+    in
+    Some h
+
+let board_normalized_entropy stats =
+  let freqs = board_frequencies stats in
+  let k = IntMap.cardinal freqs in
+  if k <= 1 then Some 0.
+  else
+    match board_entropy stats with
+    | None -> None
+    | Some h -> Some (h /. log (float_of_int k))
