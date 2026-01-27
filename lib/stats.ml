@@ -155,10 +155,7 @@ let board_rotation stats =
   else
     let distinct_boards =
       List.fold_left
-        (fun acc o ->
-          match BoardHashSet.find_opt o.board_hash acc with
-          | None -> BoardHashSet.add o.board_hash acc
-          | Some _ -> acc)
+        (fun acc o -> BoardHashSet.add o.board_hash acc)
         BoardHashSet.empty stats.obs
       |> BoardHashSet.to_list |> List.length
     in
