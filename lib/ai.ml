@@ -4,6 +4,7 @@ let create id roster strategy = { id; roster; strategy }
 let id a = a.id
 let roster a = a.roster
 let strategy a = a.strategy
+let with_roster roster a = { a with roster }
 
 let build_board (type a) (module R : Rng.S with type t = a) (rng : a) a home =
   Lineup_strategy.build

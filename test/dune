@@ -20,5 +20,6 @@
   test_standing
   test_game
   test_league
-  test_stats)
+  test_stats
+  test_fatigue)
  (libraries alcotest cachio))

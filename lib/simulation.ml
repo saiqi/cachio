@@ -31,7 +31,10 @@ let create (type a) (module R : Rng.S with type t = a) (rng : a) ids =
   build ids deck [] |> of_ais
 
 let run (type a) (module R : Rng.S with type t = a) (rng : a) sim =
-  League.run_with_audit (module R) rng sim.participants sim.schedule
+  let _, standing, audit =
+    League.run_with_audit (module R) rng sim.participants sim.schedule
+  in
+  (standing, audit)
 
 let run_n n (type a) (module R : Rng.S with type t = a) (rng : a) sim =
   let rec aux k acc =

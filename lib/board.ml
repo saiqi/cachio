@@ -40,6 +40,12 @@ let player_on_rows m row =
       else acc)
     m []
 
+let players board =
+  PosMap.fold
+    (fun (_, _) cell acc ->
+      match cell with Occupied i -> i :: acc | Empty -> acc)
+    board []
+
 let position row =
   let i = Row.to_int row in
   if i = 0 then Position.Defender

@@ -45,6 +45,21 @@ let test_player_on_rows () =
         [ Player_id.to_int i ])
     cases
 
+let test_players () =
+  let player_ids = List.init 3 Fun.id in
+  let cases =
+    List.map
+      (fun i -> (Player_id.of_int i, Row.of_int_exn i, Column.of_int_exn 0))
+      player_ids
+  in
+  let board = Board.of_list cases in
+  Alcotest.check
+    (Alcotest.list Alcotest.int)
+    "same list" player_ids
+    (Board.players board
+    |> List.sort Player_id.compare
+    |> List.map Player_id.to_int)
+
 let test_is_valid () =
   let pick_pos pid =
     let i = Player_id.to_int pid in

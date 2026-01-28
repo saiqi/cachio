@@ -48,3 +48,8 @@ let adjust_score p position =
         | Position.Defender -> decr_score (decr_score p)
         | Position.Midfielder -> decr_score p
         | Position.Forward -> p)
+
+let fatigues p = { p with shape = Shape.decr p.shape }
+let recovers p = { p with shape = Shape.incr p.shape }
+let hurts p = { p with shape = Shape.min }
+let heals p = { p with shape = Shape.max }

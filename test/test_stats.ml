@@ -36,10 +36,14 @@ let fake_stats =
   let first_result =
     Game_result.create ~home:(Ai_id.of_int 0) ~home_goals:1
       ~away:(Ai_id.of_int 1) ~away_goals:0
+      ~home_players:(Board.players home_board)
+      ~away_players:(Board.players away_board)
   in
   let second_result =
     Game_result.create ~home:(Ai_id.of_int 1) ~home_goals:0
       ~away:(Ai_id.of_int 0) ~away_goals:2
+      ~away_players:(Board.players home_board)
+      ~home_players:(Board.players away_board)
   in
   Stats.of_audits
     [

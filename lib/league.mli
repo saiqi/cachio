@@ -10,4 +10,4 @@ val run_with_audit :
   'rng ->
   Participants.t ->
   Schedule.t ->
-  Standing.t * Game_audit.t list
+  Participants.t * Standing.t * Game_audit.t list

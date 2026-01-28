@@ -27,13 +27,23 @@ let test () =
   let schedule =
     Schedule.of_list [ [ (home_id, away_id); (away_id, home_id) ] ]
   in
-  let standing, audits =
+  let participants', standing, audits =
     League.run_with_audit (module Fake_rng) rng participants schedule
   in
   Alcotest.check
     (Alcotest.pair Alcotest.int Alcotest.int)
     "check game played" (2, 2)
     (Standing.played home_id standing, Standing.played away_id standing);
-  Alcotest.check Alcotest.int "audit length" 2 (List.length audits)
+  Alcotest.check Alcotest.int "audit length" 2 (List.length audits);
+  Alcotest.check
+    (Alcotest.list Alcotest.int)
+    "participant ids" [ 0; 1 ]
+    (Participants.to_list participants'
+    |> List.map (fun a -> Ai_id.to_int (Ai.id a))
+    |> List.sort Int.compare);
+  Alcotest.check Alcotest.bool "shape decreased" true
+    (List.exists
+       (fun p -> Shape.compare (Player.shape p) Shape.max < 0)
+       (Participants.find home_id participants' |> Ai.roster |> Roster.to_list))
 
-let suite = [ ("expected standing", `Quick, test) ]
+let suite = [ ("run", `Quick, test) ]

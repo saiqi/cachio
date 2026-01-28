@@ -5,7 +5,10 @@ let test () =
   let home = List.nth ids 0 in
   let away = List.nth ids 1 in
   let other = List.nth ids 2 in
-  let result = Game_result.create ~home ~home_goals:1 ~away ~away_goals:0 in
+  let result =
+    Game_result.create ~home ~home_goals:1 ~away ~away_goals:0 ~home_players:[]
+      ~away_players:[]
+  in
   let standing = Standing.update (Standing.init ids) result in
   Alcotest.check Alcotest.int "home played" 1 (Standing.played home standing);
   Alcotest.check Alcotest.int "home wins" 1 (Standing.wins home standing);

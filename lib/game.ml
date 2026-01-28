@@ -13,7 +13,8 @@ let play_with_audit (type a) (module R : Rng.S with type t = a) (rng : a) ~home
   in
   let result =
     Game_result.create ~home:(Ai.id home) ~home_goals ~away:(Ai.id away)
-      ~away_goals
+      ~away_goals ~home_players:(Board.players home_board)
+      ~away_players:(Board.players away_board)
   in
   Game_audit.create ~result ~home_param ~away_param
     ~home_strategy:(Ai.strategy home) ~away_strategy:(Ai.strategy away)

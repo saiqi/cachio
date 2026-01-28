@@ -12,3 +12,7 @@ val decr_score : t -> t
 val equal : t -> t -> bool
 val adjust_score : t -> Position.t -> t
 val is_injured : t -> bool
+val fatigues : t -> t
+val recovers : t -> t
+val hurts : t -> t
+val heals : t -> t

@@ -1,20 +1,6 @@
 open Cachio
 
-let test_compute_postion_score () =
-  let positions = Position.all in
-  List.iter
-    (fun p ->
-      let player = Player.create (Player_id.of_int 0) p (Score.of_int_exn 3) in
-      let roster = Roster.add player Roster.empty in
-      let board =
-        Board.place (Player.id player) (Board.row p) (Column.of_int_exn 0)
-          Board.empty
-      in
-      Alcotest.check Alcotest.int (Position.to_string p) 3
-        (Round.compute_position_score ~board ~roster ~position:p))
-    positions
-
-let test_compute_param_happy_path () =
+let fake_roster_board =
   let score = Score.of_int_exn 3 in
   let pick_pos pid =
     let i = Player_id.to_int pid in
@@ -42,6 +28,24 @@ let test_compute_param_happy_path () =
            (i, r, c))
          selected_ids)
   in
+  (roster, board)
+
+let test_compute_postion_score () =
+  let positions = Position.all in
+  List.iter
+    (fun p ->
+      let player = Player.create (Player_id.of_int 0) p (Score.of_int_exn 3) in
+      let roster = Roster.add player Roster.empty in
+      let board =
+        Board.place (Player.id player) (Board.row p) (Column.of_int_exn 0)
+          Board.empty
+      in
+      Alcotest.check Alcotest.int (Position.to_string p) 3
+        (Round.compute_position_score ~board ~roster ~position:p))
+    positions
+
+let test_compute_param_happy_path () =
+  let roster, board = fake_roster_board in
   let param = Round.compute_param ~home:false ~board ~roster in
   let offensive_dice = Round_param.offensive_dice param |> Dice_count.to_int in
   let defensive_dice = Round_param.defensive_dice param |> Dice_count.to_int in
