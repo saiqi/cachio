@@ -1,5 +1,3 @@
-type t = { participants : Participants.t; schedule : Schedule.t }
-
 let of_ais ais =
   let participants =
     List.fold_left
@@ -7,7 +5,7 @@ let of_ais ais =
       Participants.empty ais
   in
   let schedule = Schedule.round_robin (List.map Ai.id ais) in
-  { participants; schedule }
+  (participants, schedule)
 
 let create (type a) (module R : Rng.S with type t = a) (rng : a) ids =
   let deck = Deck.full |> Deck.shuffle (module R) rng in
@@ -30,17 +28,18 @@ let create (type a) (module R : Rng.S with type t = a) (rng : a) ids =
   in
   build ids deck [] |> of_ais
 
-let run (type a) (module R : Rng.S with type t = a) (rng : a) sim =
+let run (type a) (module R : Rng.S with type t = a) (rng : a) ids =
+  let participants, schedule = create (module R) rng ids in
   let _, standing, audit =
-    League.run_with_audit (module R) rng sim.participants sim.schedule
+    League.run_with_audit (module R) rng participants schedule
   in
   (standing, audit)
 
-let run_n n (type a) (module R : Rng.S with type t = a) (rng : a) sim =
+let run_n n (type a) (module R : Rng.S with type t = a) (rng : a) ids =
   let rec aux k acc =
     if k <= 0 then List.rev acc
     else
-      let res = run (module R) rng sim in
+      let res = run (module R) rng ids in
       aux (k - 1) (res :: acc)
   in
   aux n []
