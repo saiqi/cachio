@@ -180,3 +180,26 @@ let board_normalized_entropy stats =
     match board_entropy stats with
     | None -> None
     | Some h -> Some (h /. log (float_of_int k))
+
+let wilson_interval ~ones ~obs =
+  let total = List.length obs in
+  if total = 0 then None
+  else
+    let z = 1.96 in
+    let n = float_of_int total in
+    let w = float_of_int (List.length ones) in
+    let phat = w /. n in
+
+    let z2 = z *. z in
+    let denom = 1. +. (z2 /. n) in
+
+    let center = (phat +. (z2 /. (2. *. n))) /. denom in
+    let half_width =
+      z *. sqrt (((phat *. (1. -. phat)) +. (z2 /. (4. *. n))) /. n) /. denom
+    in
+    Some (center -. half_width, center +. half_width)
+
+let win_rate_ci stats =
+  wilson_interval
+    ~ones:(List.filter (fun o -> o.outcome = Win) stats.obs)
+    ~obs:stats.obs

@@ -105,6 +105,15 @@ let test_board_entropy () =
   | None -> Alcotest.fail "entropy is none"
   | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) "board entropy" 0. v
 
+let test_win_rate_ci () =
+  let stats = fake_stats () in
+  let ai_stats = Stats.by_ai stats (Ai_id.of_int 0) in
+  match Stats.win_rate_ci ai_stats with
+  | None -> Alcotest.fail "ci is none"
+  | Some (l, h) ->
+      Alcotest.check Alcotest.bool "between 0 and 1" true
+        (l >= 0. && l <= 1. && h >= 0. && l <= 1.)
+
 let suite =
   [
     ("audit to obs", `Quick, test_audit_to_obs);
@@ -115,4 +124,5 @@ let suite =
     ("filter by AI", `Quick, test_by_ai);
     ("goals per action", `Quick, test_goals_per_action);
     ("board entropy", `Quick, test_board_entropy);
+    ("win rate ci", `Quick, test_win_rate_ci);
   ]

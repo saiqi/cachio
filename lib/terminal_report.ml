@@ -4,6 +4,7 @@ let rec string_of_value = function
   | Report.Optional None -> "n/a"
   | Report.Optional (Some v) -> string_of_value v
   | Report.Int i -> Printf.sprintf "%d" i
+  | Report.Interval (l, r) -> string_of_value l ^ "-" ^ string_of_value r
 
 let print_metric metric =
   Printf.printf "  %-35s %s\n" (Report.name metric)

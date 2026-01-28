@@ -2,6 +2,7 @@ type value =
   | Float of float
   | Percent of float
   | Int of int
+  | Interval of (value * value)
   | Optional of value option
 
 type metric = { name : string; value : value }
@@ -23,6 +24,10 @@ let opt_float = function
 let opt_percent = function
   | None -> Optional None
   | Some v -> Optional (Some (Percent v))
+
+let opt_interval = function
+  | None -> Optional None
+  | Some (l, r) -> Optional (Some (Interval (Float l, Float r)))
 
 let global_section stats =
   {
@@ -76,8 +81,7 @@ let strategy_section stats =
         title = Strategy_id.to_string s;
         metrics =
           [
-            metric "Win ratio"
-              (opt_percent (Stats.win_ratio strat_stats |> percent));
+            metric "Win rate CI" (opt_interval (Stats.win_rate_ci strat_stats));
             metric "Goals per action"
               (opt_float (Stats.goals_per_action strat_stats));
             metric "Actions (mean)" (opt_float (Stats.actions_mean strat_stats));

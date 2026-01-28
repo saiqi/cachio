@@ -2,6 +2,7 @@ type value =
   | Float of float
   | Percent of float
   | Int of int
+  | Interval of (value * value)
   | Optional of value option
 
 type metric
