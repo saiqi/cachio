@@ -1,6 +1,6 @@
 open Cachio
 
-let fake_stats () =
+let fake_stats =
   let home_param =
     Round_param.create ~offensive_dice:(Dice_count.of_int_exn 2)
       ~defensive_dice:(Dice_count.of_int_exn 1)
@@ -52,7 +52,7 @@ let fake_stats () =
     ]
 
 let test_audit_to_obs () =
-  let stats = fake_stats () in
+  let stats = fake_stats in
   Alcotest.check Alcotest.int "2 games -> 4 obs" 4
     (List.length (Stats.obs stats));
   let wins =
@@ -69,44 +69,44 @@ let test_audit_to_obs () =
   Alcotest.check Alcotest.int "2 losses" 2 (List.length losses)
 
 let test_game_goals_mean () =
-  let stats = fake_stats () in
+  let stats = fake_stats in
   match Stats.game_goals_mean stats with
   | None -> Alcotest.fail "game goals mean is none"
   | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) "game goals mean" 1.5 v
 
 let test_win_ratio () =
-  let stats = fake_stats () in
+  let stats = fake_stats in
   match Stats.win_ratio stats with
   | None -> Alcotest.fail "win ratio is none"
   | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) "win ratio" 0.5 v
 
 let test_by_strategy () =
-  let stats = Stats.by_strategy (fake_stats ()) Strategy_id.Defensive in
+  let stats = Stats.by_strategy fake_stats Strategy_id.Defensive in
   Alcotest.check Alcotest.int "2 obs" 2 (List.length (Stats.obs stats))
 
 let test_by_home () =
-  let stats = Stats.by_home (fake_stats ()) in
+  let stats = Stats.by_home fake_stats in
   Alcotest.check Alcotest.int "2 obs" 2 (List.length (Stats.obs stats))
 
 let test_by_ai () =
-  let stats = Stats.by_ai (fake_stats ()) (Ai_id.of_int 0) in
+  let stats = Stats.by_ai fake_stats (Ai_id.of_int 0) in
   Alcotest.check Alcotest.int "2 obs" 2 (List.length (Stats.obs stats))
 
 let test_goals_per_action () =
-  let stats = fake_stats () in
+  let stats = fake_stats in
   match Stats.goals_per_action stats with
   | None -> Alcotest.fail "goals per action is none"
   | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) "goals per action" 0.5 v
 
 let test_board_entropy () =
-  let stats = fake_stats () in
+  let stats = fake_stats in
   let off_stats = Stats.by_strategy stats Strategy_id.Offensive in
   match Stats.board_entropy off_stats with
   | None -> Alcotest.fail "entropy is none"
   | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) "board entropy" 0. v
 
 let test_win_rate_ci () =
-  let stats = fake_stats () in
+  let stats = fake_stats in
   let ai_stats = Stats.by_ai stats (Ai_id.of_int 0) in
   match Stats.win_rate_ci ai_stats with
   | None -> Alcotest.fail "ci is none"
