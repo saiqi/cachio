@@ -101,6 +101,8 @@ let strategy_section stats =
               (opt_float (Stats.defensive_dice_per_goal_conceded strat_stats));
             metric "Board normalized entropy"
               (opt_float (Stats.board_normalized_entropy strat_stats));
+            metric "Tactic normalized entropy"
+              (opt_float (Stats.tactic_normalized_entropy strat_stats));
           ];
       })
     Strategy_id.all

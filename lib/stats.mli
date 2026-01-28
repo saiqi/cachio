@@ -26,4 +26,6 @@ val defensive_dice_stddev : t -> float option
 val game_count : t -> int
 val board_entropy : t -> float option
 val board_normalized_entropy : t -> float option
+val tactic_entropy : t -> float option
+val tactic_normalized_entropy : t -> float option
 val win_rate_ci : t -> (float * float) option

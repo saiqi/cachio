@@ -25,3 +25,5 @@ val home_strategy : t -> Strategy_id.t
 val away_strategy : t -> Strategy_id.t
 val home_board_shape : t -> int
 val away_board_shape : t -> int
+val home_tactic : t -> int
+val away_tactic : t -> int

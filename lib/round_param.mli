@@ -9,3 +9,4 @@ val create :
 val offensive_dice : t -> Dice_count.t
 val defensive_dice : t -> Dice_count.t
 val actions : t -> Action_count.t
+val hash : t -> int

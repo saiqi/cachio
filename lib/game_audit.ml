@@ -10,6 +10,8 @@ type t = {
   away_strategy : Strategy_id.t;
   home_board_shape : int;
   away_board_shape : int;
+  home_tactic : int;
+  away_tactic : int;
 }
 
 let create ~result ~home_param ~away_param ~home_strategy ~away_strategy
@@ -26,6 +28,8 @@ let create ~result ~home_param ~away_param ~home_strategy ~away_strategy
     away_strategy;
     home_board_shape = Board_symmetry.canonical_hash home_board;
     away_board_shape = Board_symmetry.canonical_hash away_board;
+    home_tactic = Round_param.hash home_param;
+    away_tactic = Round_param.hash away_param;
   }
 
 let result g = g.result
@@ -43,3 +47,5 @@ let home_strategy g = g.home_strategy
 let away_strategy g = g.away_strategy
 let home_board_shape g = g.home_board_shape
 let away_board_shape g = g.away_board_shape
+let home_tactic g = g.home_tactic
+let away_tactic g = g.away_tactic

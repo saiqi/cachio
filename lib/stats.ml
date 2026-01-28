@@ -10,6 +10,7 @@ type obs = {
   offensive_dice : Dice_count.t;
   defensive_dice : Dice_count.t;
   board_shape : int;
+  tactic : int;
   outcome : outcome;
 }
 
@@ -29,6 +30,7 @@ let obs_of_audit audit =
       offensive_dice = Game_audit.home_offensive_dice audit;
       defensive_dice = Game_audit.home_defensive_dice audit;
       board_shape = Game_audit.home_board_shape audit;
+      tactic = Game_audit.home_tactic audit;
       outcome =
         (if home_goals > away_goals then Win
          else if home_goals = away_goals then Draw
@@ -44,6 +46,7 @@ let obs_of_audit audit =
       offensive_dice = Game_audit.away_offensive_dice audit;
       defensive_dice = Game_audit.away_defensive_dice audit;
       board_shape = Game_audit.away_board_shape audit;
+      tactic = Game_audit.away_tactic audit;
       outcome =
         (if home_goals < away_goals then Win
          else if home_goals = away_goals then Draw
@@ -149,19 +152,19 @@ let defensive_dice_stddev stats =
 
 module IntMap = Map.Make (Int)
 
-let board_frequencies stats =
+let frequencies f stats =
   List.fold_left
     (fun acc o ->
-      IntMap.update o.board_shape
+      IntMap.update (f o)
         (function None -> Some 1 | Some v -> Some (v + 1))
         acc)
     IntMap.empty stats.obs
 
-let board_entropy stats =
+let entropy f stats =
   let n = List.length stats.obs in
   if n = 0 then None
   else
-    let freqs = board_frequencies stats in
+    let freqs = frequencies f stats in
     let total = float_of_int n in
     let h =
       IntMap.fold
@@ -172,14 +175,24 @@ let board_entropy stats =
     in
     Some h
 
-let board_normalized_entropy stats =
-  let freqs = board_frequencies stats in
+let normalized_entropy f stats =
+  let freqs = frequencies f stats in
   let k = IntMap.cardinal freqs in
   if k <= 1 then Some 0.
   else
-    match board_entropy stats with
+    match entropy f stats with
     | None -> None
     | Some h -> Some (h /. log (float_of_int k))
+
+let board_entropy stats = entropy (fun o -> o.board_shape) stats
+
+let board_normalized_entropy stats =
+  normalized_entropy (fun o -> o.board_shape) stats
+
+let tactic_entropy stats = entropy (fun o -> o.tactic) stats
+
+let tactic_normalized_entropy stats =
+  normalized_entropy (fun o -> o.tactic) stats
 
 let wilson_interval ~ones ~obs =
   let total = List.length obs in
