@@ -9,7 +9,9 @@ let rec combinations k l =
           (combinations k xs)
 
 let all (type a) (module R : Rng.S with type t = a) (rng : a) roster =
-  let players = Roster.to_list roster |> Utils.shuffle (module R) rng in
+  let players =
+    Roster.available_players roster |> Utils.shuffle (module R) rng
+  in
   let coords =
     Row.all
     |> List.concat_map (fun r -> List.map (fun c -> (r, c)) Column.all)

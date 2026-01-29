@@ -17,3 +17,6 @@ let of_cards l =
          let p = Player.create id (Card.position e) (Card.score e) in
          add p acc)
        empty
+
+let available_players roster =
+  roster |> to_list |> List.filter (fun p -> not (Player.is_injured p))
