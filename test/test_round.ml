@@ -71,6 +71,35 @@ let test_compute_param_empty () =
   Alcotest.check Alcotest.int "defensive dices" 1 defensive_dice;
   Alcotest.check Alcotest.int "actions" 1 actions
 
+let test_adjust_param () =
+  let _, left = fake_roster_board in
+  let right = Board.of_list (Board.to_list left) in
+  let right' = Board.rotate right in
+  let left_param =
+    Round_param.create ~offensive_dice:(Dice_count.of_int_exn 1)
+      ~defensive_dice:(Dice_count.of_int_exn 1)
+      ~actions:(Action_count.of_int_exn 1)
+  in
+  let right_param =
+    Round_param.create ~offensive_dice:(Dice_count.of_int_exn 1)
+      ~defensive_dice:(Dice_count.of_int_exn 1)
+      ~actions:(Action_count.of_int_exn 1)
+  in
+  let left_param', right_param' =
+    Round.adjust_param ~left ~left_param ~right ~right_param
+  in
+  let left_param'', right_param'' =
+    Round.adjust_param ~left ~left_param ~right:right' ~right_param
+  in
+  Alcotest.check Alcotest.int "left -> not covered no change" 1
+    (Round_param.defensive_dice left_param' |> Dice_count.to_int);
+  Alcotest.check Alcotest.int "right -> not covered no change" 1
+    (Round_param.defensive_dice right_param' |> Dice_count.to_int);
+  Alcotest.check Alcotest.int "left -> covered so change" 2
+    (Round_param.defensive_dice left_param'' |> Dice_count.to_int);
+  Alcotest.check Alcotest.int "right -> covered so change" 2
+    (Round_param.defensive_dice right_param'' |> Dice_count.to_int)
+
 let test_resolve () =
   let home =
     Round_param.create ~offensive_dice:(Dice_count.of_int_exn 2)
@@ -94,5 +123,6 @@ let suite =
     ("compute position score", `Quick, test_compute_postion_score);
     ("compute param happy path", `Quick, test_compute_param_happy_path);
     ("compute param empty", `Quick, test_compute_param_empty);
+    ("adjust param", `Quick, test_adjust_param);
     ("resolve", `Quick, test_resolve);
   ]

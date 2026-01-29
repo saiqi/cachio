@@ -128,3 +128,28 @@ let rotate board =
       in
       (p, r, new_c))
   |> of_list
+
+module ColSet = Set.Make (Column)
+
+let rows_match ~left ~left_pos ~right ~right_pos =
+  let filter_pos r p = Row.equal r (row p) in
+  let occupied_cols pos b =
+    b |> PosMap.to_list
+    |> List.filter (fun ((r, _), _) -> filter_pos r pos)
+    |> List.filter (fun ((_, _), cell) ->
+        match cell with Empty -> false | Occupied _ -> true)
+    |> List.map (fun ((_, c), _) -> c)
+  in
+  let left_cells = left |> occupied_cols left_pos |> ColSet.of_list in
+  let right_cells =
+    right |> occupied_cols right_pos
+    |> List.map (fun c ->
+        Column.of_int_exn (Column.to_int Column.max - Column.to_int c))
+    |> ColSet.of_list
+  in
+  List.length (ColSet.inter left_cells right_cells |> ColSet.to_list)
+  = List.length (ColSet.to_list right_cells)
+
+let defenders_cover ~left ~right =
+  rows_match ~left ~left_pos:Position.Defender ~right
+    ~right_pos:Position.Forward

@@ -208,6 +208,58 @@ let test_rotate () =
     ]
     (Board.to_list rotated_board |> List.sort sort_placement)
 
+let test_defenders_cover () =
+  let left =
+    Board.of_list
+      [
+        (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0);
+        (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 1);
+        (Player_id.of_int 2, Row.of_int_exn 0, Column.of_int_exn 2);
+        (Player_id.of_int 3, Row.of_int_exn 0, Column.of_int_exn 3);
+        (Player_id.of_int 4, Row.of_int_exn 1, Column.of_int_exn 2);
+        (Player_id.of_int 5, Row.of_int_exn 2, Column.of_int_exn 1);
+      ]
+  in
+  let right =
+    Board.of_list
+      [
+        (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 1);
+        (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 2);
+        (Player_id.of_int 2, Row.of_int_exn 1, Column.of_int_exn 2);
+        (Player_id.of_int 3, Row.of_int_exn 1, Column.of_int_exn 3);
+        (Player_id.of_int 4, Row.of_int_exn 2, Column.of_int_exn 0);
+        (Player_id.of_int 5, Row.of_int_exn 2, Column.of_int_exn 3);
+      ]
+  in
+  Alcotest.check Alcotest.bool "defenders cover" true
+    (Board.defenders_cover ~left ~right)
+
+let test_defenders_do_not_cover () =
+  let left =
+    Board.of_list
+      [
+        (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 0);
+        (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 1);
+        (Player_id.of_int 2, Row.of_int_exn 1, Column.of_int_exn 2);
+        (Player_id.of_int 3, Row.of_int_exn 1, Column.of_int_exn 3);
+        (Player_id.of_int 4, Row.of_int_exn 2, Column.of_int_exn 0);
+        (Player_id.of_int 5, Row.of_int_exn 2, Column.of_int_exn 1);
+      ]
+  in
+  let right =
+    Board.of_list
+      [
+        (Player_id.of_int 0, Row.of_int_exn 0, Column.of_int_exn 1);
+        (Player_id.of_int 1, Row.of_int_exn 0, Column.of_int_exn 2);
+        (Player_id.of_int 2, Row.of_int_exn 1, Column.of_int_exn 2);
+        (Player_id.of_int 3, Row.of_int_exn 1, Column.of_int_exn 3);
+        (Player_id.of_int 4, Row.of_int_exn 2, Column.of_int_exn 0);
+        (Player_id.of_int 5, Row.of_int_exn 2, Column.of_int_exn 3);
+      ]
+  in
+  Alcotest.check Alcotest.bool "defender do not cover" false
+    (Board.defenders_cover ~left ~right)
+
 let suite =
   [
     ("place player", `Quick, test_place);
@@ -221,4 +273,6 @@ let suite =
     ("is shape not valid", `Quick, test_is_shape_not_valid);
     ("hash", `Quick, test_hash);
     ("rotate", `Quick, test_rotate);
+    ("defenders cover", `Quick, test_defenders_cover);
+    ("defenders do not cover", `Quick, test_defenders_do_not_cover);
   ]

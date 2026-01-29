@@ -32,7 +32,7 @@ let test_home_advantage () =
   Alcotest.check Alcotest.bool "consitent offensive dice" true
     (Game_audit.home_offensive_dice audit > Game_audit.away_offensive_dice audit);
   Alcotest.check Alcotest.bool "consitent defensive dice" true
-    (Game_audit.home_defensive_dice audit = Game_audit.away_defensive_dice audit);
+    (Game_audit.home_defensive_dice audit < Game_audit.away_defensive_dice audit);
   Alcotest.check Alcotest.bool "consistent actions" true
     (Game_audit.home_actions audit > Game_audit.away_actions audit);
   Alcotest.check Alcotest.bool "consistent home strategy" true
