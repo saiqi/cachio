@@ -17,6 +17,7 @@ module type S = sig
   val compare : t -> t -> int
   val equal : t -> t -> bool
   val all : t list
+  val half : t -> t
 end
 
 module Make (B : BOUNDS) : S = struct
@@ -43,4 +44,6 @@ module Make (B : BOUNDS) : S = struct
       | n -> aux (n :: acc) (n - 1)
     in
     aux [] max
+
+  let half x = clamp (to_int x / 2)
 end

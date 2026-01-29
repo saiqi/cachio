@@ -17,6 +17,7 @@ module type S = sig
   val compare : t -> t -> int
   val equal : t -> t -> bool
   val all : t list
+  val half : t -> t
 end
 
 module Make (_ : BOUNDS) : S
