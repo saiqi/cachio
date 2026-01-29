@@ -36,17 +36,17 @@ let adjust_score p position =
     | Position.Defender -> (
         match position with
         | Position.Defender -> p
-        | Position.Midfielder -> decr_score p
-        | Position.Forward -> decr_score (decr_score p))
+        | Position.Midfielder -> { p with score = Score.half p.score }
+        | Position.Forward -> { p with score = Score.min })
     | Position.Midfielder -> (
         match position with
         | Position.Defender -> decr_score p
         | Position.Midfielder -> p
-        | Position.Forward -> decr_score (decr_score p))
+        | Position.Forward -> decr_score p)
     | Position.Forward -> (
         match position with
-        | Position.Defender -> decr_score (decr_score p)
-        | Position.Midfielder -> decr_score p
+        | Position.Defender -> { p with score = Score.min }
+        | Position.Midfielder -> { p with score = Score.half p.score }
         | Position.Forward -> p)
 
 let fatigues p = { p with shape = Shape.decr p.shape }
