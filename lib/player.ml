@@ -40,9 +40,9 @@ let adjust_score p position =
         | Position.Forward -> { p with score = Score.min })
     | Position.Midfielder -> (
         match position with
-        | Position.Defender -> decr_score p
+        | Position.Defender -> { p with score = Score.half p.score }
         | Position.Midfielder -> p
-        | Position.Forward -> decr_score p)
+        | Position.Forward -> { p with score = Score.half p.score })
     | Position.Forward -> (
         match position with
         | Position.Defender -> { p with score = Score.min }
