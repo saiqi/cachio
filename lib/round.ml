@@ -40,20 +40,24 @@ let compute_param ~home ~board ~roster =
   Round_param.create ~offensive_dice ~defensive_dice ~actions
 
 let adjust_param ~left ~left_param ~right ~right_param =
-  let adjust p =
-    let new_def = Dice_count.incr (Round_param.defensive_dice p) in
-    Round_param.create
-      ~offensive_dice:(Round_param.offensive_dice p)
-      ~defensive_dice:new_def ~actions:(Round_param.actions p)
-  in
-  let left_param' =
-    if Board.defenders_cover ~left ~right then adjust left_param else left_param
-  in
-  let right_param' =
-    if Board.defenders_cover ~left:right ~right:left then adjust right_param
-    else right_param
-  in
-  (left_param', right_param')
+  match (left, right) with
+  | Some l, Some r ->
+      let adjust p =
+        let new_def = Dice_count.incr (Round_param.defensive_dice p) in
+        Round_param.create
+          ~offensive_dice:(Round_param.offensive_dice p)
+          ~defensive_dice:new_def ~actions:(Round_param.actions p)
+      in
+      let left_param' =
+        if Board.defenders_cover ~left:l ~right:r then adjust left_param
+        else left_param
+      in
+      let right_param' =
+        if Board.defenders_cover ~left:r ~right:l then adjust right_param
+        else right_param
+      in
+      (left_param', right_param')
+  | _ -> (left_param, right_param)
 
 let resolve_action (type a) (module R : Rng.S with type t = a) (rng : a)
     ~attacker ~defender =

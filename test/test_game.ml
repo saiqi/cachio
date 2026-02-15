@@ -7,14 +7,18 @@ let fake_ais () =
         Player.create i Position.Defender (Score.of_int_exn 1))
     |> Roster.of_list
   in
-  let d = Ai.create (Ai_id.of_int 0) dr Strategy_id.Defensive in
+  let d =
+    Ai.create (Ai_id.of_int 0) dr Strategy_id.Defensive |> Participant.of_ai
+  in
   let fr =
     List.init 12 Fun.id
     |> List.map (fun i -> Player_id.of_int (i + 12))
     |> List.map (fun i -> Player.create i Position.Forward (Score.of_int_exn 3))
     |> Roster.of_list
   in
-  let o = Ai.create (Ai_id.of_int 1) fr Strategy_id.Offensive in
+  let o =
+    Ai.create (Ai_id.of_int 1) fr Strategy_id.Offensive |> Participant.of_ai
+  in
   (o, d)
 
 let test_home_advantage () =

@@ -4,7 +4,7 @@ let of_ais ais =
       (fun acc ai -> Participants.add ai acc)
       Participants.empty ais
   in
-  let schedule = Schedule.round_robin (List.map Ai.id ais) in
+  let schedule = Schedule.round_robin (List.map Participant.id ais) in
   (participants, schedule)
 
 let create (type a) (module R : Rng.S with type t = a) (rng : a) ids =
@@ -22,9 +22,15 @@ let create (type a) (module R : Rng.S with type t = a) (rng : a) ids =
     | [] -> List.rev acc
     | x :: xs ->
         let id, strategy = x in
-        let deck, roster = draw_roster deck in
-        let ai = Ai.create id roster strategy in
-        build xs deck (ai :: acc)
+        if Strategy_id.is_scripted strategy then
+          let scripted =
+            Scripted.create id strategy |> Participant.of_scripted
+          in
+          build xs deck (scripted :: acc)
+        else
+          let deck, roster = draw_roster deck in
+          let ai = Ai.create id roster strategy |> Participant.of_ai in
+          build xs deck (ai :: acc)
   in
   build ids deck [] |> of_ais
 

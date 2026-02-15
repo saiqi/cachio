@@ -7,19 +7,23 @@ let fake_ais () =
         Player.create i Position.Defender (Score.of_int_exn 1))
     |> Roster.of_list
   in
-  let d = Ai.create (Ai_id.of_int 0) dr Strategy_id.Defensive in
+  let d =
+    Ai.create (Ai_id.of_int 0) dr Strategy_id.Defensive |> Participant.of_ai
+  in
   let fr =
     List.init 12 Fun.id
     |> List.map (fun i -> Player_id.of_int (i + 12))
     |> List.map (fun i -> Player.create i Position.Forward (Score.of_int_exn 3))
     |> Roster.of_list
   in
-  let o = Ai.create (Ai_id.of_int 1) fr Strategy_id.Offensive in
+  let o =
+    Ai.create (Ai_id.of_int 1) fr Strategy_id.Offensive |> Participant.of_ai
+  in
   [ o; d ]
 
 let test () =
   let ais = fake_ais () in
-  let ids = List.map Ai.id ais in
+  let ids = List.map Participant.id ais in
   let home_id = List.nth ids 0 in
   let away_id = List.nth ids 1 in
   let rng = ref [ 1; 2; 3; 5 ] in
@@ -39,11 +43,12 @@ let test () =
     (Alcotest.list Alcotest.int)
     "participant ids" [ 0; 1 ]
     (Participants.to_list participants'
-    |> List.map (fun a -> Ai_id.to_int (Ai.id a))
+    |> List.map (fun a -> Ai_id.to_int (Participant.id a))
     |> List.sort Int.compare);
   Alcotest.check Alcotest.bool "shape decreased" true
     (List.exists
        (fun p -> Shape.compare (Player.shape p) Shape.max < 0)
-       (Participants.find home_id participants' |> Ai.roster |> Roster.to_list))
+       (Participants.find home_id participants'
+       |> Participant.roster |> Option.get |> Roster.to_list))
 
 let suite = [ ("run", `Quick, test) ]

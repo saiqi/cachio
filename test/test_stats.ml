@@ -49,10 +49,12 @@ let fake_stats =
     [
       Game_audit.create ~result:first_result ~home_param ~away_param
         ~home_strategy:Strategy_id.Offensive
-        ~away_strategy:Strategy_id.Defensive ~home_board ~away_board;
+        ~away_strategy:Strategy_id.Defensive ~home_board:(Some home_board)
+        ~away_board:(Some away_board);
       Game_audit.create ~result:second_result ~home_param ~away_param
         ~home_strategy:Strategy_id.Defensive
-        ~away_strategy:Strategy_id.Offensive ~home_board ~away_board;
+        ~away_strategy:Strategy_id.Offensive ~home_board:(Some home_board)
+        ~away_board:(Some away_board);
     ]
 
 let test_audit_to_obs () =

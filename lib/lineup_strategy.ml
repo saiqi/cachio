@@ -73,3 +73,4 @@ let of_id ~home = function
   | Strategy_id.Optimal -> optimal home
   | Strategy_id.Pragmatic -> pragmatic home
   | Strategy_id.Dummy -> dummy
+  | _ -> invalid_arg "Not an AI strategy"

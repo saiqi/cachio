@@ -1,8 +1,8 @@
 type t
 
 val empty : t
-val add : Ai.t -> t -> t
-val find_opt : Ai_id.t -> t -> Ai.t option
-val find : Ai_id.t -> t -> Ai.t
-val to_list : t -> Ai.t list
-val of_list : Ai.t list -> t
+val add : Participant.t -> t -> t
+val find_opt : Ai_id.t -> t -> Participant.t option
+val find : Ai_id.t -> t -> Participant.t
+val to_list : t -> Participant.t list
+val of_list : Participant.t list -> t
