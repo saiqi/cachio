@@ -9,7 +9,18 @@ type t =
   | Scripted_Balanced
   | Scripted_Defensive
 
-let all = [ Offensive; Defensive; Balanced; Optimal; Dummy; Pragmatic ]
+let all =
+  [
+    Offensive;
+    Defensive;
+    Balanced;
+    Optimal;
+    Dummy;
+    Pragmatic;
+    Scripted_Balanced;
+    Scripted_Defensive;
+    Scripted_Offensive;
+  ]
 
 let to_string = function
   | Offensive -> "Offensive"
