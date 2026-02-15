@@ -1,6 +1,6 @@
 let run_with_audit (type a) (module R : Rng.S with type t = a) (rng : a)
     participants schedule =
-  let ids = Participants.to_list participants |> List.map Ai.id in
+  let ids = Participants.to_list participants |> List.map Participant.id in
   let participants', standing, audits =
     Schedule.to_list schedule
     |> List.fold_left
@@ -10,21 +10,11 @@ let run_with_audit (type a) (module R : Rng.S with type t = a) (rng : a)
                let home = Participants.find (Schedule.home game) participants in
                let away = Participants.find (Schedule.away game) participants in
                let result = Game.play_with_audit (module R) rng ~home ~away in
-               let home_players =
-                 result |> Game_audit.result |> Game_result.home_players
-               in
-               let away_players =
-                 result |> Game_audit.result |> Game_result.away_players
-               in
                let home' =
-                 Ai.with_roster
-                   (Fatigue.apply ~players:home_players ~roster:(Ai.roster home))
-                   home
+                 Participant.after_game (Game_audit.result result) home
                in
                let away' =
-                 Ai.with_roster
-                   (Fatigue.apply ~players:away_players ~roster:(Ai.roster away))
-                   away
+                 Participant.after_game (Game_audit.result result) away
                in
                let part' =
                  part |> Participants.add home' |> Participants.add away'

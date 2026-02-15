@@ -1,13 +1,13 @@
 val play :
   (module Rng.S with type t = 'rng) ->
   'rng ->
-  home:Ai.t ->
-  away:Ai.t ->
+  home:Participant.t ->
+  away:Participant.t ->
   Game_result.t
 
 val play_with_audit :
   (module Rng.S with type t = 'rng) ->
   'rng ->
-  home:Ai.t ->
-  away:Ai.t ->
+  home:Participant.t ->
+  away:Participant.t ->
   Game_audit.t

@@ -8,8 +8,8 @@ type t = {
   away_defensive_dice : Dice_count.t;
   home_strategy : Strategy_id.t;
   away_strategy : Strategy_id.t;
-  home_board_shape : int;
-  away_board_shape : int;
+  home_board_shape : int option;
+  away_board_shape : int option;
   home_tactic : int;
   away_tactic : int;
 }
@@ -26,8 +26,8 @@ let create ~result ~home_param ~away_param ~home_strategy ~away_strategy
     away_defensive_dice = Round_param.defensive_dice away_param;
     home_strategy;
     away_strategy;
-    home_board_shape = Board_symmetry.canonical_hash home_board;
-    away_board_shape = Board_symmetry.canonical_hash away_board;
+    home_board_shape = Option.map Board_symmetry.canonical_hash home_board;
+    away_board_shape = Option.map Board_symmetry.canonical_hash away_board;
     home_tactic = Round_param.hash home_param;
     away_tactic = Round_param.hash away_param;
   }

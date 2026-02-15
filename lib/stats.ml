@@ -9,7 +9,7 @@ type obs = {
   actions : Action_count.t;
   offensive_dice : Dice_count.t;
   defensive_dice : Dice_count.t;
-  board_shape : int;
+  board_shape : int option;
   tactic : int;
   outcome : outcome;
 }
@@ -184,10 +184,11 @@ let normalized_entropy f stats =
     | None -> None
     | Some h -> Some (h /. log (float_of_int k))
 
-let board_entropy stats = entropy (fun o -> o.board_shape) stats
+let board_entropy stats =
+  entropy (fun o -> Option.value o.board_shape ~default:0) stats
 
 let board_normalized_entropy stats =
-  normalized_entropy (fun o -> o.board_shape) stats
+  normalized_entropy (fun o -> Option.value o.board_shape ~default:0) stats
 
 let tactic_entropy stats = entropy (fun o -> o.tactic) stats
 

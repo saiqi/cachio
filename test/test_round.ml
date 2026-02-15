@@ -72,9 +72,10 @@ let test_compute_param_empty () =
   Alcotest.check Alcotest.int "actions" 1 actions
 
 let test_adjust_param () =
-  let _, left = fake_roster_board in
-  let right = Board.of_list (Board.to_list left) in
-  let right' = Board.rotate right in
+  let _, fake = fake_roster_board in
+  let left = Some fake in
+  let right = Option.map (fun l -> Board.of_list (Board.to_list l)) left in
+  let right' = Option.map Board.rotate right in
   let left_param =
     Round_param.create ~offensive_dice:(Dice_count.of_int_exn 1)
       ~defensive_dice:(Dice_count.of_int_exn 1)

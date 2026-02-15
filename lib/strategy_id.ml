@@ -1,4 +1,13 @@
-type t = Offensive | Defensive | Balanced | Optimal | Dummy | Pragmatic
+type t =
+  | Offensive
+  | Defensive
+  | Balanced
+  | Optimal
+  | Dummy
+  | Pragmatic
+  | Scripted_Offensive
+  | Scripted_Balanced
+  | Scripted_Defensive
 
 let all = [ Offensive; Defensive; Balanced; Optimal; Dummy; Pragmatic ]
 
@@ -9,3 +18,12 @@ let to_string = function
   | Optimal -> "Optimal"
   | Dummy -> "Dummy"
   | Pragmatic -> "Pragmatic"
+  | Scripted_Offensive -> "Scripted Offensive"
+  | Scripted_Balanced -> "Scripted Balanced"
+  | Scripted_Defensive -> "Scripted Defensive"
+
+let is_scripted = function
+  | Scripted_Offensive -> true
+  | Scripted_Balanced -> true
+  | Scripted_Defensive -> true
+  | _ -> false
