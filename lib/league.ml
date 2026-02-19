@@ -7,8 +7,8 @@ let run_with_audit (type a) (module R : Rng.S with type t = a) (rng : a)
          (fun acc day ->
            List.fold_left
              (fun (part, stand, audit) game ->
-               let home = Participants.find (Schedule.home game) participants in
-               let away = Participants.find (Schedule.away game) participants in
+               let home = Participants.find (Schedule.home game) part in
+               let away = Participants.find (Schedule.away game) part in
                let result = Game.play_with_audit (module R) rng ~home ~away in
                let home' =
                  Participant.after_game (Game_audit.result result) home
