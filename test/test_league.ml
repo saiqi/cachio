@@ -51,4 +51,59 @@ let test () =
        (Participants.find home_id participants'
        |> Participant.roster |> Option.get |> Roster.to_list))
 
-let suite = [ ("run", `Quick, test) ]
+let make_roster id_offset =
+  let mk i pos =
+    Player.create (Player_id.of_int (id_offset + i)) pos (Score.of_int_exn 3)
+  in
+  Roster.of_list
+    [
+      mk 0 Position.Defender;
+      mk 1 Position.Defender;
+      mk 2 Position.Midfielder;
+      mk 3 Position.Midfielder;
+      mk 4 Position.Forward;
+      mk 5 Position.Forward;
+    ]
+
+let test_threads_participant_state_between_games () =
+  let home =
+    Ai.create (Ai_id.of_int 0) (make_roster 0) Strategy_id.Balanced
+    |> Participant.of_ai
+  in
+  let away =
+    Ai.create (Ai_id.of_int 1) (make_roster 100) Strategy_id.Balanced
+    |> Participant.of_ai
+  in
+  let home_id = Participant.id home in
+  let away_id = Participant.id away in
+  let participants = Participants.of_list [ home; away ] in
+  let schedule =
+    Schedule.of_list [ [ (home_id, away_id) ]; [ (away_id, home_id) ] ]
+  in
+  let rng = Fake_rng.create () in
+  let participants', _, audits =
+    League.run_with_audit (module Fake_rng) rng participants schedule
+  in
+  let final_shapes id =
+    Participants.find id participants'
+    |> Participant.roster |> Option.get |> Roster.to_list
+    |> List.map (fun p -> Shape.to_int (Player.shape p))
+    |> List.sort Int.compare
+  in
+  Alcotest.check Alcotest.int "two games played" 2 (List.length audits);
+  Alcotest.check
+    (Alcotest.list Alcotest.int)
+    "home players fatigued twice (4 -> 2)" [ 2; 2; 2; 2; 2; 2 ]
+    (final_shapes home_id);
+  Alcotest.check
+    (Alcotest.list Alcotest.int)
+    "away players fatigued twice (4 -> 2)" [ 2; 2; 2; 2; 2; 2 ]
+    (final_shapes away_id)
+
+let suite =
+  [
+    ("run", `Quick, test);
+    ( "threads participant state",
+      `Quick,
+      test_threads_participant_state_between_games );
+  ]
