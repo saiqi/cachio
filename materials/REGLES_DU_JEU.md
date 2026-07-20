@@ -28,13 +28,22 @@ attaque. Ces valeurs sont comprises entre 1 et 6.
 1. Chaque personne choisit un club.
 2. Séparez les cartes en trois paquets : défenseurs, milieux et attaquants, puis
    mélangez chaque paquet.
-3. Distribuez à chaque club :
+3. Déterminez au hasard un ordre de draft des clubs.
+4. Draftez les défenseurs en **ordre serpent** pendant 4 tours :
+   - tour 1 : les clubs choisissent dans l’ordre de draft ;
+   - tour 2 : les clubs choisissent dans l’ordre inverse ;
+   - tour 3 : les clubs choisissent à nouveau dans l’ordre de draft ;
+   - tour 4 : les clubs choisissent à nouveau dans l’ordre inverse.
+5. Décalez le premier club d’un cran dans l’ordre de draft, puis draftez les
+   milieux de la même manière.
+6. Décalez encore le premier club d’un cran, puis draftez les attaquants de la
+   même manière.
+7. Chaque club commence donc avec un effectif de 12 joueurs :
    - 4 défenseurs ;
    - 4 milieux ;
    - 4 attaquants.
-4. Chaque club commence donc avec un effectif de 12 joueurs.
-5. Placez tous les joueurs au niveau de forme maximal : **4**.
-6. Préparez le calendrier aller-retour. Avec six clubs, le championnat comprend
+8. Placez tous les joueurs au niveau de forme maximal : **4**.
+9. Préparez le calendrier aller-retour. Avec six clubs, le championnat comprend
    10 journées de 3 matchs : chaque club rencontre deux fois chacun des cinq
    autres clubs, une fois à domicile et une fois à l’extérieur.
 
