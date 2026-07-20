@@ -56,6 +56,14 @@ let global_section stats =
           (opt_float (Stats.offensive_dice_per_goal stats));
         metric "Defensive dice per goals conceded"
           (opt_float (Stats.defensive_dice_per_goal_conceded stats));
+        metric "Win / initial draw dependency"
+          (opt_float (Stats.win_initial_draw_dependency stats));
+        metric "Worst initial draw win ratio"
+          (opt_percent (Stats.worst_initial_draw_win_ratio stats |> percent));
+        metric "Best initial draw win ratio"
+          (opt_percent (Stats.best_initial_draw_win_ratio stats |> percent));
+        metric "Initial draw win-rate spread"
+          (opt_percent (Stats.initial_draw_win_rate_spread stats |> percent));
       ];
   }
 

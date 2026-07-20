@@ -9,6 +9,7 @@ type obs = {
   actions : Action_count.t;
   offensive_dice : Dice_count.t;
   defensive_dice : Dice_count.t;
+  initial_draw_score : int option;
   board_shape : int option;
   tactic : int;
   outcome : outcome;
@@ -29,6 +30,7 @@ let obs_of_audit audit =
       actions = Game_audit.home_actions audit;
       offensive_dice = Game_audit.home_offensive_dice audit;
       defensive_dice = Game_audit.home_defensive_dice audit;
+      initial_draw_score = Game_audit.home_initial_draw_score audit;
       board_shape = Game_audit.home_board_shape audit;
       tactic = Game_audit.home_tactic audit;
       outcome =
@@ -45,6 +47,7 @@ let obs_of_audit audit =
       actions = Game_audit.away_actions audit;
       offensive_dice = Game_audit.away_offensive_dice audit;
       defensive_dice = Game_audit.away_defensive_dice audit;
+      initial_draw_score = Game_audit.away_initial_draw_score audit;
       board_shape = Game_audit.away_board_shape audit;
       tactic = Game_audit.away_tactic audit;
       outcome =
@@ -194,6 +197,115 @@ let tactic_entropy stats = entropy (fun o -> o.tactic) stats
 
 let tactic_normalized_entropy stats =
   normalized_entropy (fun o -> o.tactic) stats
+
+module PairMap = Map.Make (struct
+  type t = int * int
+
+  let compare = Stdlib.compare
+end)
+
+let entropy_from_counts total counts =
+  let total = float_of_int total in
+  IntMap.fold
+    (fun _ count acc ->
+      let p = float_of_int count /. total in
+      acc -. (p *. log p))
+    counts 0.0
+
+let increment_int key counts =
+  IntMap.update key (function None -> Some 1 | Some v -> Some (v + 1)) counts
+
+let increment_pair key counts =
+  PairMap.update key (function None -> Some 1 | Some v -> Some (v + 1)) counts
+
+let win_initial_draw_dependency stats =
+  let samples =
+    List.fold_left
+      (fun acc o ->
+        match o.initial_draw_score with
+        | None -> acc
+        | Some score ->
+            let win = if o.outcome = Win then 1 else 0 in
+            (score, win) :: acc)
+      [] stats.obs
+  in
+  let n = List.length samples in
+  if n = 0 then None
+  else
+    let x_counts, y_counts, xy_counts =
+      List.fold_left
+        (fun (xs, ys, xys) (score, win) ->
+          ( increment_int score xs,
+            increment_int win ys,
+            increment_pair (score, win) xys ))
+        (IntMap.empty, IntMap.empty, PairMap.empty)
+        samples
+    in
+    let n_float = float_of_int n in
+    let h_win = entropy_from_counts n y_counts in
+    if h_win = 0.0 then Some 0.0
+    else
+      let mutual_information =
+        PairMap.fold
+          (fun (score, win) xy_count acc ->
+            let pxy = float_of_int xy_count /. n_float in
+            let px = float_of_int (IntMap.find score x_counts) /. n_float in
+            let py = float_of_int (IntMap.find win y_counts) /. n_float in
+            acc +. (pxy *. log (pxy /. (px *. py))))
+          xy_counts 0.0
+      in
+      Some (mutual_information /. h_win)
+
+let initial_draw_tail_ratio = 0.20
+
+let scored_obs stats =
+  stats.obs
+  |> List.filter_map (fun o ->
+      Option.map (fun score -> (score, o)) o.initial_draw_score)
+  |> List.sort (fun (left_score, _) (right_score, _) ->
+      Int.compare left_score right_score)
+
+let initial_draw_tail_thresholds stats =
+  let samples = scored_obs stats in
+  let n = List.length samples in
+  if n = 0 then None
+  else
+    let tail_size =
+      max 1 (ceil (float_of_int n *. initial_draw_tail_ratio) |> int_of_float)
+    in
+    let worst_threshold = fst (List.nth samples (tail_size - 1)) in
+    let best_threshold = fst (List.nth samples (n - tail_size)) in
+    Some (samples, worst_threshold, best_threshold)
+
+let win_ratio_of_observations observations =
+  observations
+  |> List.map (fun o -> ((if o.outcome = Win then 1 else 0), 1))
+  |> ratio
+
+let worst_initial_draw_win_ratio stats =
+  match initial_draw_tail_thresholds stats with
+  | None -> None
+  | Some (samples, worst_threshold, _) ->
+      samples
+      |> List.filter_map (fun (score, o) ->
+          if score <= worst_threshold then Some o else None)
+      |> win_ratio_of_observations
+
+let best_initial_draw_win_ratio stats =
+  match initial_draw_tail_thresholds stats with
+  | None -> None
+  | Some (samples, _, best_threshold) ->
+      samples
+      |> List.filter_map (fun (score, o) ->
+          if score >= best_threshold then Some o else None)
+      |> win_ratio_of_observations
+
+let initial_draw_win_rate_spread stats =
+  match
+    (best_initial_draw_win_ratio stats, worst_initial_draw_win_ratio stats)
+  with
+  | Some best, Some worst -> Some (best -. worst)
+  | _ -> None
 
 let wilson_interval ~ones ~obs =
   let total = List.length obs in

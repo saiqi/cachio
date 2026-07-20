@@ -6,5 +6,6 @@ val find_opt : Player_id.t -> t -> Player.t option
 val find : Player_id.t -> t -> Player.t
 val of_list : Player.t list -> t
 val to_list : t -> Player.t list
+val total_score : t -> int
 val of_cards : Card.t list -> t
 val available_players : t -> Player.t list

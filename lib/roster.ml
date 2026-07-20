@@ -9,6 +9,10 @@ let find = M.find
 let of_list l = List.fold_left (fun acc p -> add p acc) empty l
 let to_list m = M.to_list m |> List.map (fun (_, p) -> p)
 
+let total_score roster =
+  roster |> to_list
+  |> List.fold_left (fun acc p -> acc + (Player.score p |> Score.to_int)) 0
+
 let of_cards l =
   List.mapi (fun i e -> (i, e)) l
   |> List.fold_left

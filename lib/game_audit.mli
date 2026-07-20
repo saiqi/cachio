@@ -6,6 +6,8 @@ val create :
   away_param:Round_param.t ->
   home_strategy:Strategy_id.t ->
   away_strategy:Strategy_id.t ->
+  home_initial_draw_score:int option ->
+  away_initial_draw_score:int option ->
   home_board:Board.t option ->
   away_board:Board.t option ->
   t
@@ -23,6 +25,8 @@ val home_defensive_dice : t -> Dice_count.t
 val away_defensive_dice : t -> Dice_count.t
 val home_strategy : t -> Strategy_id.t
 val away_strategy : t -> Strategy_id.t
+val home_initial_draw_score : t -> int option
+val away_initial_draw_score : t -> int option
 val home_board_shape : t -> int option
 val away_board_shape : t -> int option
 val home_tactic : t -> int

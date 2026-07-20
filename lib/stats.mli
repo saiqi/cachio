@@ -28,4 +28,8 @@ val board_entropy : t -> float option
 val board_normalized_entropy : t -> float option
 val tactic_entropy : t -> float option
 val tactic_normalized_entropy : t -> float option
+val win_initial_draw_dependency : t -> float option
+val worst_initial_draw_win_ratio : t -> float option
+val best_initial_draw_win_ratio : t -> float option
+val initial_draw_win_rate_spread : t -> float option
 val win_rate_ci : t -> (float * float) option

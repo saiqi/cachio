@@ -49,11 +49,13 @@ let fake_stats =
     [
       Game_audit.create ~result:first_result ~home_param ~away_param
         ~home_strategy:Strategy_id.Offensive
-        ~away_strategy:Strategy_id.Defensive ~home_board:(Some home_board)
+        ~away_strategy:Strategy_id.Defensive ~home_initial_draw_score:(Some 30)
+        ~away_initial_draw_score:(Some 20) ~home_board:(Some home_board)
         ~away_board:(Some away_board);
       Game_audit.create ~result:second_result ~home_param ~away_param
         ~home_strategy:Strategy_id.Defensive
-        ~away_strategy:Strategy_id.Offensive ~home_board:(Some home_board)
+        ~away_strategy:Strategy_id.Offensive ~home_initial_draw_score:(Some 20)
+        ~away_initial_draw_score:(Some 30) ~home_board:(Some home_board)
         ~away_board:(Some away_board);
     ]
 
@@ -120,6 +122,28 @@ let test_win_rate_ci () =
       Alcotest.check Alcotest.bool "between 0 and 1" true
         (l >= 0. && l <= 1. && h >= 0. && l <= 1.)
 
+let test_win_initial_draw_dependency () =
+  let stats = fake_stats in
+  match Stats.win_initial_draw_dependency stats with
+  | None -> Alcotest.fail "dependency is none"
+  | Some v ->
+      Alcotest.(check (Alcotest.float 1.e-6))
+        "perfect initial draw dependency" 1. v
+
+let test_initial_draw_tail_win_ratios () =
+  let stats = fake_stats in
+  let check_optional_float label expected value =
+    match value with
+    | None -> Alcotest.fail (label ^ " is none")
+    | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) label expected v
+  in
+  check_optional_float "worst initial draw win ratio" 0.
+    (Stats.worst_initial_draw_win_ratio stats);
+  check_optional_float "best initial draw win ratio" 1.
+    (Stats.best_initial_draw_win_ratio stats);
+  check_optional_float "initial draw win-rate spread" 1.
+    (Stats.initial_draw_win_rate_spread stats)
+
 let suite =
   [
     ("audit to obs", `Quick, test_audit_to_obs);
@@ -131,4 +155,6 @@ let suite =
     ("goals per action", `Quick, test_goals_per_action);
     ("board entropy", `Quick, test_board_entropy);
     ("win rate ci", `Quick, test_win_rate_ci);
+    ("win initial draw dependency", `Quick, test_win_initial_draw_dependency);
+    ("initial draw tail win ratios", `Quick, test_initial_draw_tail_win_ratios);
   ]

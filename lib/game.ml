@@ -20,10 +20,14 @@ let play_with_audit (type a) (module R : Rng.S with type t = a) (rng : a) ~home
       ~home_players:(opt_players home_board)
       ~away_players:(opt_players away_board)
   in
+  let draw_score participant =
+    participant |> Participant.roster |> Option.map Roster.total_score
+  in
   Game_audit.create ~result ~home_param:home_param' ~away_param:away_param'
     ~home_strategy:(Participant.strategy home)
     ~away_strategy:(Participant.strategy away)
-    ~home_board ~away_board
+    ~home_initial_draw_score:(draw_score home)
+    ~away_initial_draw_score:(draw_score away) ~home_board ~away_board
 
 let play (type a) (module R : Rng.S with type t = a) (rng : a) ~home ~away =
   play_with_audit (module R) rng ~home ~away |> Game_audit.result
