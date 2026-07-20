@@ -1,0 +1,905 @@
+{
+  "metadata": {
+    "name": "initial-baseline",
+    "seed": 0,
+    "num_simulations": 1000,
+    "scenario": "deterministic",
+    "created_at": "2026-07-20T14:20:55Z",
+    "git_commit": "dc58736"
+  },
+  "report": [
+    {
+      "title": "Global",
+      "metrics": [
+        { "name": "Total games", "value": { "type": "int", "value": 30000 } },
+        {
+          "name": "Goal per game (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.7108666666666665 }
+          }
+        },
+        {
+          "name": "Goal per game (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.131936542364788 }
+          }
+        },
+        {
+          "name": "Win ratio",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 34.30166666666667 }
+          }
+        },
+        {
+          "name": "Draw ratio",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 31.39666666666667 }
+          }
+        },
+        {
+          "name": "Loss ratio",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 34.30166666666667 }
+          }
+        },
+        {
+          "name": "Goals per action",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.47404652681033127 }
+          }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.8592833333333334 }
+          }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.3062072025561415 }
+          }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.13345 }
+          }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.388370708319942 }
+          }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.9258666666666666 }
+          }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.2506119766185009 }
+          }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.5739984752723606 }
+          }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.420849420849421 }
+          }
+        },
+        {
+          "name": "Win / initial draw dependency",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.01770727220665563 }
+          }
+        },
+        {
+          "name": "Worst initial draw win ratio",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 26.079295154185022 }
+          }
+        },
+        {
+          "name": "Best initial draw win ratio",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 43.50877192982456 }
+          }
+        },
+        {
+          "name": "Initial draw win-rate spread",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 17.42947677563954 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Home advantage",
+      "metrics": [
+        {
+          "name": "Win ratio",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 45.35 }
+          }
+        },
+        {
+          "name": "Draw ratio",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 31.39666666666667 }
+          }
+        },
+        {
+          "name": "Loss ratio",
+          "value": {
+            "type": "optional",
+            "value": { "type": "percent", "value": 23.253333333333334 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Offensive",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": {
+            "type": "optional",
+            "value": {
+              "type": "interval",
+              "lower": { "type": "float", "value": 0.37889182183720815 },
+              "upper": { "type": "float", "value": 0.39799388974782934 }
+            }
+          }
+        },
+        {
+          "name": "Goals per action",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.6716043755697356 }
+          }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.6328 }
+          }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.2354419418487799 }
+          }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 3.1672 }
+          }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.261032584954872 }
+          }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.1263 }
+          }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.33905723112859476 }
+          }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.7912000904875014 }
+          }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.652851843264549 }
+          }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.7904107462194179 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.8135458929779742 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Defensive",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": {
+            "type": "optional",
+            "value": {
+              "type": "interval",
+              "lower": { "type": "float", "value": 0.22116538003293595 },
+              "upper": { "type": "float", "value": 0.23764252432252686 }
+            }
+          }
+        },
+        {
+          "name": "Goals per action",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.2338604585637305 }
+          }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.8393 }
+          }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.295007032537458 }
+          }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.0214 }
+          }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.1547398928636321 }
+          }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.9294 }
+          }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.3243077509030903 }
+          }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.5382530120481928 }
+          }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 3.0231166150670794 }
+          }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.8359823184401411 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.7790280147573581 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Balanced",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": {
+            "type": "optional",
+            "value": {
+              "type": "interval",
+              "lower": { "type": "float", "value": 0.41534149590563424 },
+              "upper": { "type": "float", "value": 0.43471610596603066 }
+            }
+          }
+        },
+        {
+          "name": "Goals per action",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.5208771305669653 }
+          }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 3.0919 }
+          }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.324548916795185 }
+          }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.3924 }
+          }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.340895984110639 }
+          }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.9269 }
+          }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.1682006930685573 }
+          }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.4855013970816517 }
+          }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.486346806541191 }
+          }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.9877676260362213 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.8894641635413788 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Optimal",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": {
+            "type": "optional",
+            "value": {
+              "type": "interval",
+              "lower": { "type": "float", "value": 0.49200125408699075 },
+              "upper": { "type": "float", "value": 0.5115973634680894 }
+            }
+          }
+        },
+        {
+          "name": "Goals per action",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.5428823044799863 }
+          }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 3.5201 }
+          }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.3130759333872366 }
+          }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.6386 }
+          }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.505794402193839 }
+          }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.9935 }
+          }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.3612652402472984 }
+          }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.3807430664573521 }
+          }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.5679565832940066 }
+          }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.926030860271751 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.8347363757899356 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Dummy",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": {
+            "type": "optional",
+            "value": {
+              "type": "interval",
+              "lower": { "type": "float", "value": 0.13274964245303122 },
+              "upper": { "type": "float", "value": 0.14632730734593402 }
+            }
+          }
+        },
+        {
+          "name": "Goals per action",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.32851970181043666 }
+          }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.3475 }
+          }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.1053804488020158 }
+          }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.3937 }
+          }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.7673064485058282 }
+          }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.4811 }
+          }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.7467921798305345 }
+          }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.8071836099585061 }
+          }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.8950867226687617 }
+          }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.9956216063291148 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.7154612496861736 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Pragmatic",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": {
+            "type": "optional",
+            "value": {
+              "type": "interval",
+              "lower": { "type": "float", "value": 0.3647652602118696 },
+              "upper": { "type": "float", "value": 0.38373135732753627 }
+            }
+          }
+        },
+        {
+          "name": "Goals per action",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.5167578282735582 }
+          }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.7241 }
+          }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.2293617543393547 }
+          }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.1874 }
+          }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.4560539994536952 }
+          }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 2.098 }
+          }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.3646179751937417 }
+          }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.5538822192228459 }
+          }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 1.7254708446418292 }
+          }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.8428164807413284 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.8369358615645905 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Scripted Balanced",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Goals per action",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.0 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.0 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Scripted Defensive",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Goals per action",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.0 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.0 }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Scripted Offensive",
+      "metrics": [
+        {
+          "name": "Win rate CI",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Goals per action",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Actions (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Actions (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice (mean)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice (stddev)",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Offensive dice per goals",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Defensive dice per goals conceded",
+          "value": { "type": "optional", "value": null }
+        },
+        {
+          "name": "Board normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.0 }
+          }
+        },
+        {
+          "name": "Tactic normalized entropy",
+          "value": {
+            "type": "optional",
+            "value": { "type": "float", "value": 0.0 }
+          }
+        }
+      ]
+    }
+  ]
+}
