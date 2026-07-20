@@ -21,5 +21,7 @@ let () =
       ("Game", Test_game.suite);
       ("League", Test_league.suite);
       ("Stats", Test_stats.suite);
+      ("Report", Test_report.suite);
+      ("Balance_audit", Test_balance_audit.suite);
       ("Fatigue", Test_fatigue.suite);
     ]

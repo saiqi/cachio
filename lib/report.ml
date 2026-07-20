@@ -29,6 +29,121 @@ let opt_interval = function
   | None -> Optional None
   | Some (l, r) -> Optional (Some (Interval (Float l, Float r)))
 
+let rec value_to_yojson = function
+  | Float f -> `Assoc [ ("type", `String "float"); ("value", `Float f) ]
+  | Percent p -> `Assoc [ ("type", `String "percent"); ("value", `Float p) ]
+  | Int i -> `Assoc [ ("type", `String "int"); ("value", `Int i) ]
+  | Interval (l, r) ->
+      `Assoc
+        [
+          ("type", `String "interval");
+          ("lower", value_to_yojson l);
+          ("upper", value_to_yojson r);
+        ]
+  | Optional None -> `Assoc [ ("type", `String "optional"); ("value", `Null) ]
+  | Optional (Some v) ->
+      `Assoc [ ("type", `String "optional"); ("value", value_to_yojson v) ]
+
+let metric_to_yojson m =
+  `Assoc [ ("name", `String m.name); ("value", value_to_yojson m.value) ]
+
+let section_to_yojson s =
+  `Assoc
+    [
+      ("title", `String s.title);
+      ("metrics", `List (List.map metric_to_yojson s.metrics));
+    ]
+
+let to_yojson report = `List (List.map section_to_yojson report)
+
+let assoc key fields =
+  match List.assoc_opt key fields with
+  | Some v -> Ok v
+  | None -> Error ("missing field: " ^ key)
+
+let string_field key fields =
+  match assoc key fields with
+  | Error e -> Error e
+  | Ok (`String s) -> Ok s
+  | Ok _ -> Error ("invalid string field: " ^ key)
+
+let rec value_of_yojson = function
+  | `Assoc fields -> (
+      match string_field "type" fields with
+      | Error e -> Error e
+      | Ok "float" -> (
+          match assoc "value" fields with
+          | Ok (`Float f) -> Ok (Float f)
+          | Ok (`Int i) -> Ok (Float (float_of_int i))
+          | Ok _ -> Error "invalid float value"
+          | Error e -> Error e)
+      | Ok "percent" -> (
+          match assoc "value" fields with
+          | Ok (`Float f) -> Ok (Percent f)
+          | Ok (`Int i) -> Ok (Percent (float_of_int i))
+          | Ok _ -> Error "invalid percent value"
+          | Error e -> Error e)
+      | Ok "int" -> (
+          match assoc "value" fields with
+          | Ok (`Int i) -> Ok (Int i)
+          | Ok _ -> Error "invalid int value"
+          | Error e -> Error e)
+      | Ok "interval" -> (
+          match (assoc "lower" fields, assoc "upper" fields) with
+          | Ok lower, Ok upper -> (
+              match (value_of_yojson lower, value_of_yojson upper) with
+              | Ok lower, Ok upper -> Ok (Interval (lower, upper))
+              | Error e, _ | _, Error e -> Error e)
+          | Error e, _ | _, Error e -> Error e)
+      | Ok "optional" -> (
+          match assoc "value" fields with
+          | Ok `Null -> Ok (Optional None)
+          | Ok value -> (
+              match value_of_yojson value with
+              | Ok v -> Ok (Optional (Some v))
+              | Error e -> Error e)
+          | Error e -> Error e)
+      | Ok kind -> Error ("unknown value type: " ^ kind))
+  | _ -> Error "invalid value"
+
+let metric_of_yojson = function
+  | `Assoc fields -> (
+      match (string_field "name" fields, assoc "value" fields) with
+      | Ok name, Ok value -> (
+          match value_of_yojson value with
+          | Ok value -> Ok { name; value }
+          | Error e -> Error e)
+      | Error e, _ | _, Error e -> Error e)
+  | _ -> Error "invalid metric"
+
+let section_of_yojson = function
+  | `Assoc fields -> (
+      match (string_field "title" fields, assoc "metrics" fields) with
+      | Ok title, Ok (`List metrics) ->
+          let rec parse acc = function
+            | [] -> Ok { title; metrics = List.rev acc }
+            | metric :: rest -> (
+                match metric_of_yojson metric with
+                | Ok metric -> parse (metric :: acc) rest
+                | Error e -> Error e)
+          in
+          parse [] metrics
+      | Ok _, Ok _ -> Error "invalid metrics field"
+      | Error e, _ | _, Error e -> Error e)
+  | _ -> Error "invalid section"
+
+let of_yojson = function
+  | `List sections ->
+      let rec parse acc = function
+        | [] -> Ok (List.rev acc)
+        | section :: rest -> (
+            match section_of_yojson section with
+            | Ok section -> parse (section :: acc) rest
+            | Error e -> Error e)
+      in
+      parse [] sections
+  | _ -> Error "invalid report"
+
 let global_section stats =
   {
     title = "Global";

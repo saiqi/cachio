@@ -17,6 +17,9 @@
 
 # ocamlbuild and Dune default working directory
 _build/
+reports/balance/*
+!reports/balance/baselines/
+!reports/balance/baselines/**
 
 # ocamlbuild targets
 *.byte

@@ -19,7 +19,7 @@
  (name cachio)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml (alcotest :with-test))
+ (depends ocaml yojson (alcotest :with-test))
  (tags
   ("add topics" "to describe" your project)))
 

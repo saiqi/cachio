@@ -15,3 +15,5 @@ val metrics : section -> metric list
 val name : metric -> string
 val value : metric -> value
 val to_list : t -> section list
+val to_yojson : t -> Yojson.Safe.t
+val of_yojson : Yojson.Safe.t -> (t, string) result

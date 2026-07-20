@@ -16,3 +16,18 @@ let print_section section =
   List.iter print_metric (Report.metrics section)
 
 let print report = List.iter print_section (Report.to_list report)
+
+let to_string report =
+  let buffer = Buffer.create 1024 in
+  let add fmt = Printf.bprintf buffer fmt in
+  let add_metric metric =
+    add "  %-35s %s\n" (Report.name metric)
+      (string_of_value (Report.value metric))
+  in
+  let add_section section =
+    add "\n%s\n" (Report.title section);
+    add "%s\n" (String.make (String.length (Report.title section)) '-');
+    List.iter add_metric (Report.metrics section)
+  in
+  List.iter add_section (Report.to_list report);
+  Buffer.contents buffer

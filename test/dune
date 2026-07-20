@@ -21,5 +21,7 @@
   test_game
   test_league
   test_stats
+  test_report
+  test_balance_audit
   test_fatigue)
  (libraries alcotest cachio))
