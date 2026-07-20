@@ -106,16 +106,13 @@ La somme au milieu indique le nombre d’**occasions** :
 Le club qui joue à domicile gagne **1 occasion supplémentaire**, sans jamais
 dépasser 5 occasions.
 
-### 3. Appliquer le bonus de couverture
+### 3. Appliquer le bonus défensif
 
-Comparez les colonnes occupées par les attaquants adverses avec les colonnes de
-vos défenseurs, en tenant compte du fait que les deux formations se font face.
+Si une équipe place **4 joueurs sur sa ligne de défense**, elle gagne **1 dé de
+défense**, sans jamais dépasser 5 dés.
 
-Si **chaque attaquant adverse** a un défenseur directement en face de lui, votre
-équipe gagne **1 dé de défense**, sans jamais dépasser 5 dés.
-
-Ce bonus est vérifié séparément pour les deux équipes. Il suffit qu’un seul
-attaquant ne soit pas couvert pour que le bonus ne s’applique pas.
+Ce bonus est vérifié séparément pour les deux équipes. Il dépend uniquement de
+la formation de l’équipe concernée, pas du placement adverse.
 
 ### 4. Résoudre les occasions
 

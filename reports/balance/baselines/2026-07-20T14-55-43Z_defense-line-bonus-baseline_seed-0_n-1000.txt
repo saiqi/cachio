@@ -1,0 +1,163 @@
+
+Global
+------
+  Total games                         30000
+  Goal per game (mean)                2.905
+  Goal per game (stddev)              2.108
+  Win ratio                           36.0%
+  Draw ratio                          28.0%
+  Loss ratio                          36.0%
+  Goals per action                    0.513
+  Actions (mean)                      2.832
+  Actions (stddev)                    1.305
+  Offensive dice (mean)               2.138
+  Offensive dice (stddev)             1.401
+  Defensive dice (mean)               1.791
+  Defensive dice (stddev)             1.249
+  Offensive dice per goals            1.472
+  Defensive dice per goals conceded   1.233
+  Win / initial draw dependency       0.021
+  Worst initial draw win ratio        24.8%
+  Best initial draw win ratio         46.5%
+  Initial draw win-rate spread        21.7%
+
+Home advantage
+--------------
+  Win ratio                           46.8%
+  Draw ratio                          28.0%
+  Loss ratio                          25.2%
+
+Offensive
+---------
+  Win rate CI                         0.359-0.378
+  Goals per action                    0.670
+  Actions (mean)                      2.637
+  Actions (stddev)                    1.251
+  Offensive dice (mean)               3.215
+  Offensive dice (stddev)             1.273
+  Defensive dice (mean)               1.016
+  Defensive dice (stddev)             0.132
+  Offensive dice per goals            1.818
+  Defensive dice per goals conceded   0.557
+  Board normalized entropy            0.789
+  Tactic normalized entropy           0.777
+
+Defensive
+---------
+  Win rate CI                         0.287-0.305
+  Goals per action                    0.317
+  Actions (mean)                      2.832
+  Actions (stddev)                    1.280
+  Offensive dice (mean)               1.027
+  Offensive dice (stddev)             0.177
+  Defensive dice (mean)               2.753
+  Defensive dice (stddev)             1.361
+  Offensive dice per goals            1.143
+  Defensive dice per goals conceded   2.551
+  Board normalized entropy            0.835
+  Tactic normalized entropy           0.767
+
+Balanced
+--------
+  Win rate CI                         0.429-0.448
+  Goals per action                    0.556
+  Actions (mean)                      3.123
+  Actions (stddev)                    1.318
+  Offensive dice (mean)               2.426
+  Offensive dice (stddev)             1.350
+  Defensive dice (mean)               1.686
+  Defensive dice (stddev)             1.033
+  Offensive dice per goals            1.397
+  Defensive dice per goals conceded   1.183
+  Board normalized entropy            0.988
+  Tactic normalized entropy           0.857
+
+Optimal
+-------
+  Win rate CI                         0.522-0.542
+  Goals per action                    0.597
+  Actions (mean)                      3.323
+  Actions (stddev)                    1.362
+  Offensive dice (mean)               2.565
+  Offensive dice (stddev)             1.523
+  Defensive dice (mean)               2.148
+  Defensive dice (stddev)             1.527
+  Offensive dice per goals            1.292
+  Defensive dice per goals conceded   1.759
+  Board normalized entropy            0.886
+  Tactic normalized entropy           0.814
+
+Dummy
+-----
+  Win rate CI                         0.119-0.132
+  Goals per action                    0.346
+  Actions (mean)                      2.345
+  Actions (stddev)                    1.117
+  Offensive dice (mean)               1.386
+  Offensive dice (stddev)             0.750
+  Defensive dice (mean)               1.235
+  Defensive dice (stddev)             0.606
+  Offensive dice per goals            1.709
+  Defensive dice per goals conceded   0.669
+  Board normalized entropy            0.995
+  Tactic normalized entropy           0.647
+
+Pragmatic
+---------
+  Win rate CI                         0.391-0.410
+  Goals per action                    0.554
+  Actions (mean)                      2.734
+  Actions (stddev)                    1.249
+  Offensive dice (mean)               2.209
+  Offensive dice (stddev)             1.482
+  Defensive dice (mean)               1.908
+  Defensive dice (stddev)             1.320
+  Offensive dice per goals            1.457
+  Defensive dice per goals conceded   1.446
+  Board normalized entropy            0.845
+  Tactic normalized entropy           0.816
+
+Scripted Balanced
+-----------------
+  Win rate CI                         n/a
+  Goals per action                    n/a
+  Actions (mean)                      n/a
+  Actions (stddev)                    n/a
+  Offensive dice (mean)               n/a
+  Offensive dice (stddev)             n/a
+  Defensive dice (mean)               n/a
+  Defensive dice (stddev)             n/a
+  Offensive dice per goals            n/a
+  Defensive dice per goals conceded   n/a
+  Board normalized entropy            0.000
+  Tactic normalized entropy           0.000
+
+Scripted Defensive
+------------------
+  Win rate CI                         n/a
+  Goals per action                    n/a
+  Actions (mean)                      n/a
+  Actions (stddev)                    n/a
+  Offensive dice (mean)               n/a
+  Offensive dice (stddev)             n/a
+  Defensive dice (mean)               n/a
+  Defensive dice (stddev)             n/a
+  Offensive dice per goals            n/a
+  Defensive dice per goals conceded   n/a
+  Board normalized entropy            0.000
+  Tactic normalized entropy           0.000
+
+Scripted Offensive
+------------------
+  Win rate CI                         n/a
+  Goals per action                    n/a
+  Actions (mean)                      n/a
+  Actions (stddev)                    n/a
+  Offensive dice (mean)               n/a
+  Offensive dice (stddev)             n/a
+  Defensive dice (mean)               n/a
+  Defensive dice (stddev)             n/a
+  Offensive dice per goals            n/a
+  Defensive dice per goals conceded   n/a
+  Board normalized entropy            0.000
+  Tactic normalized entropy           0.000

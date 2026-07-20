@@ -15,6 +15,13 @@ let adjust_home_actions home a =
       (Action_count.of_int_exn (Rules.adjust_home_advantage home))
   else a
 
+let row_bonus board position =
+  if List.length (Board.player_on_rows board (Board.row position)) >= 4 then 1
+  else 0
+
+let apply_dice_bonus bonus dice =
+  if bonus > 0 then Dice_count.incr dice else dice
+
 let compute_param ~home ~board ~roster =
   let offensive_score =
     compute_position_score ~board ~roster ~position:Position.Forward
@@ -32,6 +39,7 @@ let compute_param ~home ~board ~roster =
   let defensive_dice =
     Piecewise.eval Balance.defensive_dice_curve defensive_score
     |> Dice_count.of_int_exn
+    |> apply_dice_bonus (row_bonus board Position.Defender)
   in
   let actions =
     Piecewise.eval Balance.action_curve midfield_score
@@ -39,25 +47,8 @@ let compute_param ~home ~board ~roster =
   in
   Round_param.create ~offensive_dice ~defensive_dice ~actions
 
-let adjust_param ~left ~left_param ~right ~right_param =
-  match (left, right) with
-  | Some l, Some r ->
-      let adjust p =
-        let new_def = Dice_count.incr (Round_param.defensive_dice p) in
-        Round_param.create
-          ~offensive_dice:(Round_param.offensive_dice p)
-          ~defensive_dice:new_def ~actions:(Round_param.actions p)
-      in
-      let left_param' =
-        if Board.defenders_cover ~left:l ~right:r then adjust left_param
-        else left_param
-      in
-      let right_param' =
-        if Board.defenders_cover ~left:r ~right:l then adjust right_param
-        else right_param
-      in
-      (left_param', right_param')
-  | _ -> (left_param, right_param)
+let adjust_param ~left:_ ~left_param ~right:_ ~right_param =
+  (left_param, right_param)
 
 let resolve_action (type a) (module R : Rng.S with type t = a) (rng : a)
     ~attacker ~defender =
