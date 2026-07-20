@@ -3,6 +3,7 @@ type obs
 type t
 
 val of_audits : Game_audit.t list -> t
+val of_runs : (Standing.t * Game_audit.t list) list -> t
 val obs : t -> obs list
 val outcome : obs -> outcome
 val games : t -> Game_audit.t list
@@ -24,6 +25,8 @@ val offensive_dice_stddev : t -> float option
 val defensive_dice_mean : t -> float option
 val defensive_dice_stddev : t -> float option
 val game_count : t -> int
+val point_spread_mean : t -> float option
+val distinct_point_totals_mean : t -> float option
 val board_entropy : t -> float option
 val board_normalized_entropy : t -> float option
 val tactic_entropy : t -> float option

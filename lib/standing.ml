@@ -70,3 +70,6 @@ let losses id standing = (M.find id standing).losses
 let points id standing = (M.find id standing).points
 let goals_for id standing = (M.find id standing).goals_for
 let goals_against id standing = (M.find id standing).goals_against
+
+let points_list standing =
+  M.to_list standing |> List.map (fun (_, e) -> e.points)

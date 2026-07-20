@@ -21,8 +21,7 @@ let run simulations =
       rng
       (Balance_audit.ais_of_scenario Balance_audit.Deterministic)
   in
-  let audits = runs |> List.map snd |> List.flatten in
-  let stats = Stats.of_audits audits in
+  let stats = Stats.of_runs runs in
   let report = Report.of_stats stats in
   Terminal_report.print report
 

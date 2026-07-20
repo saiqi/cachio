@@ -31,6 +31,10 @@ let test () =
   Alcotest.check Alcotest.int "other points" 0 (Standing.points other standing);
   Alcotest.check Alcotest.int "other gf" 0 (Standing.goals_for other standing);
   Alcotest.check Alcotest.int "other ga" 0
-    (Standing.goals_against other standing)
+    (Standing.goals_against other standing);
+  Alcotest.check
+    (Alcotest.list Alcotest.int)
+    "points list" [ 3; 0; 0 ]
+    (Standing.points_list standing)
 
 let suite = [ ("update standing", `Quick, test) ]

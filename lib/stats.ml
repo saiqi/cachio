@@ -15,7 +15,11 @@ type obs = {
   outcome : outcome;
 }
 
-type t = { games : Game_audit.t list; obs : obs list }
+type t = {
+  games : Game_audit.t list;
+  obs : obs list;
+  standings : Standing.t list;
+}
 
 let obs_of_audit audit =
   let home_goals = Game_audit.home_goals audit in
@@ -61,7 +65,12 @@ let obs stats = stats.obs
 let games stats = stats.games
 let outcome obs = obs.outcome
 let to_obs games = games |> List.map obs_of_audit |> List.flatten
-let of_audits games = { games; obs = to_obs games }
+let of_audits games = { games; obs = to_obs games; standings = [] }
+
+let of_runs runs =
+  let standings = List.map fst runs in
+  let games = runs |> List.map snd |> List.flatten in
+  { games; obs = to_obs games; standings }
 
 let mean l =
   if List.length l = 0 then None
@@ -92,6 +101,31 @@ let game_goals_stddev stats =
   stats.games |> total_game_goals |> var |> Option.map sqrt
 
 let game_count stats = List.length stats.games
+
+let point_spread standing =
+  match Standing.points_list standing with
+  | [] -> None
+  | first :: rest ->
+      let min_points, max_points =
+        List.fold_left
+          (fun (min_points, max_points) points ->
+            (min min_points points, max max_points points))
+          (first, first) rest
+      in
+      Some (max_points - min_points)
+
+let point_spread_mean stats =
+  stats.standings |> List.filter_map point_spread |> mean
+
+module IntSet = Set.Make (Int)
+
+let distinct_point_totals standing =
+  match Standing.points_list standing with
+  | [] -> None
+  | points -> points |> IntSet.of_list |> IntSet.cardinal |> Option.some
+
+let distinct_point_totals_mean stats =
+  stats.standings |> List.filter_map distinct_point_totals |> mean
 
 let ratio l =
   if List.length l = 0 then None

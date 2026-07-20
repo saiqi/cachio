@@ -150,6 +150,9 @@ let global_section stats =
     metrics =
       [
         metric "Total games" (Int (Stats.game_count stats));
+        metric "Point spread (mean)" (opt_float (Stats.point_spread_mean stats));
+        metric "Distinct point totals (mean)"
+          (opt_float (Stats.distinct_point_totals_mean stats));
         metric "Goal per game (mean)" (opt_float (Stats.game_goals_mean stats));
         metric "Goal per game (stddev)"
           (opt_float (Stats.game_goals_stddev stats));

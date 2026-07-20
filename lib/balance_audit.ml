@@ -62,8 +62,7 @@ let create ~name ~simulations ~seed ~scenario =
   let runs =
     Simulation.run_n simulations (module R) rng (ais_of_scenario scenario)
   in
-  let audits = runs |> List.map snd |> List.flatten in
-  let stats = Stats.of_audits audits in
+  let stats = Stats.of_runs runs in
   let report = Report.of_stats stats in
   {
     name;
@@ -242,6 +241,8 @@ let priority_paths =
     "Global / Worst initial draw win ratio";
     "Global / Best initial draw win ratio";
     "Global / Initial draw win-rate spread";
+    "Global / Point spread (mean)";
+    "Global / Distinct point totals (mean)";
     "Global / Goal per game (mean)";
     "Home advantage / Win ratio";
   ]

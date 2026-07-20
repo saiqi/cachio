@@ -11,3 +11,4 @@ val losses : Ai_id.t -> t -> int
 val points : Ai_id.t -> t -> int
 val goals_for : Ai_id.t -> t -> int
 val goals_against : Ai_id.t -> t -> int
+val points_list : t -> int list

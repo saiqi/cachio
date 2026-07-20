@@ -144,6 +144,44 @@ let test_initial_draw_tail_win_ratios () =
   check_optional_float "initial draw win-rate spread" 1.
     (Stats.initial_draw_win_rate_spread stats)
 
+let test_championship_point_metrics_without_standings () =
+  Alcotest.check Alcotest.bool "point spread is none" true
+    (Stats.point_spread_mean fake_stats = None);
+  Alcotest.check Alcotest.bool "distinct point totals is none" true
+    (Stats.distinct_point_totals_mean fake_stats = None)
+
+let test_championship_point_metrics () =
+  let ids = List.init 4 Ai_id.of_int in
+  let team0 = List.nth ids 0 in
+  let team1 = List.nth ids 1 in
+  let team2 = List.nth ids 2 in
+  let team3 = List.nth ids 3 in
+  let result ~home ~home_goals ~away ~away_goals =
+    Game_result.create ~home ~home_goals ~away ~away_goals ~home_players:[]
+      ~away_players:[]
+  in
+  let apply_result result standing = Standing.update standing result in
+  let standing =
+    Standing.init ids
+    |> apply_result (result ~home:team0 ~home_goals:1 ~away:team1 ~away_goals:0)
+    |> apply_result (result ~home:team2 ~home_goals:1 ~away:team3 ~away_goals:1)
+    |> apply_result (result ~home:team0 ~home_goals:1 ~away:team2 ~away_goals:0)
+  in
+  let tied_standing =
+    Standing.init ids
+    |> apply_result (result ~home:team0 ~home_goals:1 ~away:team1 ~away_goals:1)
+    |> apply_result (result ~home:team2 ~home_goals:1 ~away:team3 ~away_goals:1)
+  in
+  let stats = Stats.of_runs [ (standing, []); (tied_standing, []) ] in
+  let check_optional_float label expected value =
+    match value with
+    | None -> Alcotest.fail (label ^ " is none")
+    | Some v -> Alcotest.(check (Alcotest.float 1.e-6)) label expected v
+  in
+  check_optional_float "point spread mean" 3. (Stats.point_spread_mean stats);
+  check_optional_float "distinct point totals mean" 2.
+    (Stats.distinct_point_totals_mean stats)
+
 let suite =
   [
     ("audit to obs", `Quick, test_audit_to_obs);
@@ -157,4 +195,8 @@ let suite =
     ("win rate ci", `Quick, test_win_rate_ci);
     ("win initial draw dependency", `Quick, test_win_initial_draw_dependency);
     ("initial draw tail win ratios", `Quick, test_initial_draw_tail_win_ratios);
+    ( "championship point metrics without standings",
+      `Quick,
+      test_championship_point_metrics_without_standings );
+    ("championship point metrics", `Quick, test_championship_point_metrics);
   ]
